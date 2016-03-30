@@ -1,5 +1,48 @@
 package backend.auth;
 
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+
 public class Employee extends User {
+
+	public Employee(String _firstName, String _lastName, Character _gender, String _phoneNumber) {
+		super(_firstName, _lastName, _gender, _phoneNumber);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public Constructor getJsonConstructor() {
+		// TODO Auto-generated method stub
+		try {
+			return this.getClass().getConstructor(
+				String.class,
+				String.class,
+				Character.class,
+				String.class
+			);
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String[] getConstructorFieldOrder() {
+		// TODO Auto-generated method stub
+		return new String[]{
+				"firstName",
+				"lastName",
+				"gender",
+				"phoneNumber"
+		};
+	}
+	
+	public String toString() {
+		return "Employee: " + this.firstName + " " + this.lastName + " - " + this.gender;
+	}
 
 }
