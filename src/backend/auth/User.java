@@ -16,10 +16,13 @@ public abstract class User implements JSONMappable {
 	private String username;
 	private Password password;
 	
+	public Integer userId;
 	public String firstName;
 	public String lastName;
 	public Character gender;
 	public String phoneNumber;
+	
+	private boolean isLoggedIn = false;
 	
 	public User(String _firstName, String _lastName, Character _gender, String _phoneNumber){
 		
@@ -77,6 +80,18 @@ public abstract class User implements JSONMappable {
 		} else {
 			throw new PasswordMissmatchException(_accessor.getUsername(), _employeesPassword);
 		}
+	}
+	
+	public void login(String _password) throws PasswordMissmatchException {
+		if (this.password.matches(_password)) {
+			this.isLoggedIn = true;
+		} else {
+			throw new PasswordMissmatchException(this.username, _password);
+		}
+	}
+	
+	public boolean isLoggedIn() {
+		return this.isLoggedIn;
 	}
 }
 

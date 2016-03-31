@@ -8,12 +8,19 @@ public class Customer extends User {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Customer(Integer _userId, String _firstName, String _lastName, Character _gender, String _phoneNumber) {
+		super(_firstName, _lastName, _gender, _phoneNumber);
+		// TODO Auto-generated constructor stub
+		this.userId = _userId;
+	}
 
 	@Override
 	public Constructor getJsonConstructor() {
 		// TODO Auto-generated method stub
 		try {
 			return this.getClass().getConstructor(
+				Integer.class,
 				String.class,
 				String.class,
 				Character.class,
@@ -33,6 +40,7 @@ public class Customer extends User {
 	public String[] getConstructorFieldOrder() {
 		// TODO Auto-generated method stub
 		return new String[]{
+				"userId",
 				"firstName",
 				"lastName",
 				"gender",
