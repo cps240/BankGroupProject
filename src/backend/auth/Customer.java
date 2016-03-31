@@ -4,9 +4,15 @@ import java.lang.reflect.Constructor;
 
 public class Customer extends User {
 
-	public Customer(String _firstName, String _lastName, Character _gender, String _phoneNumber) {
+	public Customer(String _firstName, String _lastName, String _gender, String _phoneNumber) {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Customer(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber) {
+		super(_firstName, _lastName, _gender, _phoneNumber);
+		// TODO Auto-generated constructor stub
+		this.userId = _userId;
 	}
 
 	@Override
@@ -14,9 +20,10 @@ public class Customer extends User {
 		// TODO Auto-generated method stub
 		try {
 			return this.getClass().getConstructor(
+				Integer.class,
 				String.class,
 				String.class,
-				Character.class,
+				String.class,
 				String.class
 			);
 		} catch (NoSuchMethodException e) {
@@ -33,6 +40,7 @@ public class Customer extends User {
 	public String[] getConstructorFieldOrder() {
 		// TODO Auto-generated method stub
 		return new String[]{
+				"userId",
 				"firstName",
 				"lastName",
 				"gender",
@@ -41,6 +49,6 @@ public class Customer extends User {
 	}
 	
 	public String toString() {
-		return "Employee: " + this.firstName + " " + this.lastName + " - " + this.gender;
+		return "Customer: " + this.firstName + " " + this.lastName + " - " + this.gender;
 	}
 }

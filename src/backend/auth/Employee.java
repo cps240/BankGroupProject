@@ -5,9 +5,15 @@ import java.util.HashMap;
 
 public class Employee extends User {
 
-	public Employee(String _firstName, String _lastName, Character _gender, String _phoneNumber) {
+	public Employee(String _firstName, String _lastName, String _gender, String _phoneNumber) {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Employee(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber) {
+		super(_firstName, _lastName, _gender, _phoneNumber);
+		// TODO Auto-generated constructor stub
+		this.userId = _userId;
 	}
 
 	@Override
@@ -15,9 +21,10 @@ public class Employee extends User {
 		// TODO Auto-generated method stub
 		try {
 			return this.getClass().getConstructor(
+				Integer.class,
 				String.class,
 				String.class,
-				Character.class,
+				String.class,
 				String.class
 			);
 		} catch (NoSuchMethodException e) {
@@ -34,6 +41,7 @@ public class Employee extends User {
 	public String[] getConstructorFieldOrder() {
 		// TODO Auto-generated method stub
 		return new String[]{
+				"userId",
 				"firstName",
 				"lastName",
 				"gender",

@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import backend.auth.errors.PasswordAlreadySetError;
 import backend.auth.errors.PasswordMissmatchException;
+import backend.auth.errors.UserAlreadyStoredException;
+import backend.storage.Storage;
 import utils.jsonConversion.JSONMappable;
 
 public abstract class User implements JSONMappable {
@@ -12,16 +14,21 @@ public abstract class User implements JSONMappable {
 	 * Used to shift the password encription over.
 	 */
 	public static int ENCRIPTION_SHIFT_VALUE = 13;
+	public static String GENDER_MALE = "M";
+	public static String GENDER_FEMALE = "F";
 
 	private String username;
 	private Password password;
 	
+	public Integer userId;
 	public String firstName;
 	public String lastName;
-	public Character gender;
+	public String gender;
 	public String phoneNumber;
 	
-	public User(String _firstName, String _lastName, Character _gender, String _phoneNumber){
+	private boolean isLoggedIn = false;
+	
+	public User(String _firstName, String _lastName, String _gender, String _phoneNumber){
 		
 		this.firstName = _firstName;
 		this.lastName = _lastName;
@@ -34,6 +41,17 @@ public abstract class User implements JSONMappable {
 			this.username = _newUsername;
 		} else {
 			throw new PasswordMissmatchException(this.username, _guessPassword);
+		}
+	}
+	
+	public void initializeUser() throws UserAlreadyStoredException {
+		if (this.username != null && Authentication.userExists(this.username)) {
+			throw new UserAlreadyStoredException(this.username);
+		} else if (this.userId != null) {
+			throw new UserAlreadyStoredException(this.userId);
+		} else {
+			this.userId = Storage.nextUserId;
+			Storage.nextUserId ++;
 		}
 	}
 	
@@ -77,6 +95,18 @@ public abstract class User implements JSONMappable {
 		} else {
 			throw new PasswordMissmatchException(_accessor.getUsername(), _employeesPassword);
 		}
+	}
+	
+	public void login(String _password) throws PasswordMissmatchException {
+		if (this.password.matches(_password)) {
+			this.isLoggedIn = true;
+		} else {
+			throw new PasswordMissmatchException(this.username, _password);
+		}
+	}
+	
+	public boolean isLoggedIn() {
+		return this.isLoggedIn;
 	}
 }
 

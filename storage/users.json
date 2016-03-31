@@ -1,0 +1,39 @@
+{
+	"Customers": [
+		{
+			"2#java.lang.String#_firstName": "Adam",
+			"3#java.lang.String#_lastName": "James",
+			"4#java.lang.String#_gender": "M",
+			"5#java.lang.String#_phoneNumber": "(766) 897 - 2345",
+			"type": "backend.auth.Customer",
+			"1#java.lang.Integer#_userId": 3
+		},
+		{
+			"2#java.lang.String#_firstName": "Adam",
+			"3#java.lang.String#_lastName": "James",
+			"4#java.lang.String#_gender": "M",
+			"5#java.lang.String#_phoneNumber": "(766) 897 - 2345",
+			"type": "backend.auth.Customer",
+			"1#java.lang.Integer#_userId": 4
+		},
+		{
+			"2#java.lang.String#_firstName": "Wynton",
+			"3#java.lang.String#_lastName": "Kirkpatrick",
+			"4#java.lang.String#_gender": "M",
+			"5#java.lang.String#_phoneNumber": "(644) 333 - 2222",
+			"type": "backend.auth.Customer",
+			"1#java.lang.Integer#_userId": 5
+		}
+	],
+	"nextUserId": "6",
+	"Employees": [
+		{
+			"2#java.lang.String#_firstName": "Joe",
+			"3#java.lang.String#_lastName": "Schmoe",
+			"4#java.lang.String#_gender": "M",
+			"5#java.lang.String#_phoneNumber": "(567) 123 - 4567",
+			"type": "backend.auth.Employee",
+			"1#java.lang.Integer#_userId": 1
+		}
+	]
+}
