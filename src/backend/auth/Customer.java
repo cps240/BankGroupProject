@@ -4,12 +4,12 @@ import java.lang.reflect.Constructor;
 
 public class Customer extends User {
 
-	public Customer(String _firstName, String _lastName, Character _gender, String _phoneNumber) {
+	public Customer(String _firstName, String _lastName, String _gender, String _phoneNumber) {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Customer(Integer _userId, String _firstName, String _lastName, Character _gender, String _phoneNumber) {
+	public Customer(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber) {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
 		this.userId = _userId;
@@ -23,7 +23,7 @@ public class Customer extends User {
 				Integer.class,
 				String.class,
 				String.class,
-				Character.class,
+				String.class,
 				String.class
 			);
 		} catch (NoSuchMethodException e) {

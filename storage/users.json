@@ -1,0 +1,12 @@
+{
+	"Customer": [
+		{
+			"2#java.lang.String#_firstName": "Joe",
+			"3#java.lang.String#_lastName": "Schmoe",
+			"4#java.lang.String#_gender": "M",
+			"5#java.lang.String#_phoneNumber": "(567) 123 - 4567",
+			"type": "backend.auth.Employee",
+			"1#java.lang.Integer#_userId": -2147483648
+		}
+	]
+}

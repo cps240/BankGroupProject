@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import backend.Storage;
 import backend.auth.errors.PasswordMissmatchException;
 import backend.auth.errors.UserNotFoundException;
+import backend.storage.Storage;
 
 /**
  * Handels login and other authentication stuff. Use this to login users and change passwords and check to see what users are logged in.

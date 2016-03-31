@@ -19,12 +19,12 @@ public abstract class User implements JSONMappable {
 	public Integer userId;
 	public String firstName;
 	public String lastName;
-	public Character gender;
+	public String gender;
 	public String phoneNumber;
 	
 	private boolean isLoggedIn = false;
 	
-	public User(String _firstName, String _lastName, Character _gender, String _phoneNumber){
+	public User(String _firstName, String _lastName, String _gender, String _phoneNumber){
 		
 		this.firstName = _firstName;
 		this.lastName = _lastName;

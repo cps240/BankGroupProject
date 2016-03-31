@@ -5,12 +5,12 @@ import java.util.HashMap;
 
 public class Employee extends User {
 
-	public Employee(String _firstName, String _lastName, Character _gender, String _phoneNumber) {
+	public Employee(String _firstName, String _lastName, String _gender, String _phoneNumber) {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Employee(Integer _userId, String _firstName, String _lastName, Character _gender, String _phoneNumber) {
+	public Employee(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber) {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
 		this.userId = _userId;
@@ -24,7 +24,7 @@ public class Employee extends User {
 				Integer.class,
 				String.class,
 				String.class,
-				Character.class,
+				String.class,
 				String.class
 			);
 		} catch (NoSuchMethodException e) {

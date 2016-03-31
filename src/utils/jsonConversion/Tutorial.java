@@ -9,7 +9,7 @@ public class Tutorial {
 
 	public static void main(String[] a) {
 		//create an object with data
-		Customer ian = new Customer("Ian", "Kirkpatrick", 'M', "(734) 352 - 9580");
+		Customer ian = new Customer("Ian", "Kirkpatrick", "M", "(734) 352 - 9580");
 		
 		//There are errors that are thrown on the case of syntax errors in json or
 			//if the object does not implement JSONMappable
