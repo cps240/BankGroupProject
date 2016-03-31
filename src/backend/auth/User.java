@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import backend.auth.errors.PasswordAlreadySetError;
 import backend.auth.errors.PasswordMissmatchException;
+import backend.auth.errors.UserAlreadyStoredException;
+import backend.storage.Storage;
 import utils.jsonConversion.JSONMappable;
 
 public abstract class User implements JSONMappable {
@@ -12,6 +14,8 @@ public abstract class User implements JSONMappable {
 	 * Used to shift the password encription over.
 	 */
 	public static int ENCRIPTION_SHIFT_VALUE = 13;
+	public static String GENDER_MALE = "M";
+	public static String GENDER_FEMALE = "F";
 
 	private String username;
 	private Password password;
@@ -37,6 +41,17 @@ public abstract class User implements JSONMappable {
 			this.username = _newUsername;
 		} else {
 			throw new PasswordMissmatchException(this.username, _guessPassword);
+		}
+	}
+	
+	public void initializeUser() throws UserAlreadyStoredException {
+		if (this.username != null && Authentication.userExists(this.username)) {
+			throw new UserAlreadyStoredException(this.username);
+		} else if (this.userId != null) {
+			throw new UserAlreadyStoredException(this.userId);
+		} else {
+			this.userId = Storage.nextUserId;
+			Storage.nextUserId ++;
 		}
 	}
 	

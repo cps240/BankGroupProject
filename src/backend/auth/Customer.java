@@ -49,6 +49,6 @@ public class Customer extends User {
 	}
 	
 	public String toString() {
-		return "Employee: " + this.firstName + " " + this.lastName + " - " + this.gender;
+		return "Customer: " + this.firstName + " " + this.lastName + " - " + this.gender;
 	}
 }

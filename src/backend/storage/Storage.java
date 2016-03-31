@@ -36,6 +36,11 @@ public abstract class Storage {
 	public static HashMap<String, ArrayList<User>> users = new HashMap<String, ArrayList<User>>();
 	
 	/**
+	 * Next time a user is initialized and his ID is set, use this for his id.
+	 */
+	public static Integer nextUserId;
+	
+	/**
 	 * This method will put all the users into a json string with employees and customers seperated. this json will be printed to a file and later parsed into the above hashmap called users using {@code getUsersFromJson(json)} where json is the string read in by the file.
 	 * @return
 	 */
@@ -60,6 +65,8 @@ public abstract class Storage {
 			}
 		}
 		
+		usersJson.put("nextUserId", String.valueOf(Storage.nextUserId));
+		
 		return usersJson;
 	}
 	
@@ -75,24 +82,30 @@ public abstract class Storage {
 		JSONObject jsonOfUsers = (JSONObject) new JSONParser().parse(json);
 		
 		for (Object userTypeObject : jsonOfUsers.entrySet()) {
-			Entry<String, JSONArray> userType = (Entry<String, JSONArray>) userTypeObject;
-			
-			//initiiate the key for this current type. This could be Emplyee or Customer
-			users.put(userType.getKey(), new ArrayList<User>());
-			
-			for (Object userAsObject : userType.getValue()) {
-				JSONObject userAsJsonObject = (JSONObject) userAsObject;
+			if (((Entry) userTypeObject).getKey().equals("nextUserId")) {							//Use nextUserId to set the id of any user that is added to storage.
+				Storage.nextUserId = Integer.parseInt((String) jsonOfUsers.get("nextUserId"));
+			} else {
+				Entry<String, JSONArray> userType = (Entry<String, JSONArray>) userTypeObject;
 				
-				User parsedUser;
-				try {
-					parsedUser = (User) JSONClassMapping.jsonAnyToObject(userAsJsonObject);
-				} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
-						| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					throw new JsonParseError(e.getMessage());
+				//initiiate the key for this current type. This could be Emplyee or Customer
+				if (!users.containsKey(userType.getKey())) {
+					users.put(userType.getKey(), new ArrayList<User>());
 				}
 				
-				users.get(userType.getKey()).add(parsedUser);
+				for (Object userAsObject : userType.getValue()) {
+					JSONObject userAsJsonObject = (JSONObject) userAsObject;
+					
+					User parsedUser;
+					try {
+						parsedUser = (User) JSONClassMapping.jsonAnyToObject(userAsJsonObject);
+					} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
+							| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						throw new JsonParseError(e.getMessage());
+					}
+					
+					users.get(userType.getKey()).add(parsedUser);
+				}
 			}
 		}
 		
