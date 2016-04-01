@@ -4,10 +4,13 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 public class Employee extends User {
+	
+	public Boolean isATM;
 
-	public Employee(String _firstName, String _lastName, String _gender, String _phoneNumber) {
+	public Employee(String _firstName, String _lastName, String _gender, String _phoneNumber, Boolean _isATM) {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
+		this.isATM = _isATM;
 	}
 	
 	public Employee(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber) {
@@ -25,7 +28,8 @@ public class Employee extends User {
 				String.class,
 				String.class,
 				String.class,
-				String.class
+				String.class,
+				Boolean.class
 			);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
@@ -45,7 +49,8 @@ public class Employee extends User {
 				"firstName",
 				"lastName",
 				"gender",
-				"phoneNumber"
+				"phoneNumber",
+				"isATM",
 		};
 	}
 	
