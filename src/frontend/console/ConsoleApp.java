@@ -18,18 +18,9 @@ public class ConsoleApp{
 	public static void main(String[] args) throws Exception {
 		StorageHandler sth = new StorageHandler("storage/");
 		
-		Customer joe = new Customer("Wynton", "Kirkpatrick", "M", "(644) 333 - 2222");
-//		joe.initializePassword("helloMy_54");
-		
-		System.out.println(Storage.users);
 		sth.readUsers();
+
 		System.out.println(Storage.users);
-//		System.out.println(Storage.users);
-		Storage.users.get("Customers").add(joe);
-		joe.initializeUser();
-//		System.out.println(Storage.users);
-		
-		sth.printUsers();
 	}
 
 	public static void login() {
