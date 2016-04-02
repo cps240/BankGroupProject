@@ -7,7 +7,11 @@ import java.util.Scanner;
 
 import org.json.simple.parser.ParseException;
 
+import backend.Account;
+import backend.auth.Authentication;
 import backend.auth.User;
+import backend.auth.errors.UserNotFoundException;
+import backend.errors.AccountAlreadyStoredException;
 import utils.jsonConversion.JSONFormat;
 
 /**
@@ -46,6 +50,51 @@ public class StorageHandler {
 		} else {
 			throw new StorageAlreadyHasDataException();
 		}
+	}
+	
+	public User getAccountOwner(Account _account) {
+		Integer userId = Storage.accountRelationships.get(_account.getAccountNumber());
+		try {
+			return Authentication.getUser(userId);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public User getAccountOwner(String _accountId) {
+		Integer userId = Storage.accountRelationships.get(_accountId);
+		try {
+			return Authentication.getUser(userId);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public void saveAccount(Account _account) throws AccountAlreadyStoredException {
+		_account.initializeAccount();
+		Storage.accountRelationships.put(_account.getAccountNumber(), _account.getOwner().userId);
+	}
+	
+	public void readAccountRelationships() throws ParseException {
+		Scanner scnr = this.folder.getScanner(DataFolder.ACCOUNT_RELATIONSHIPS).useDelimiter("\\Z");
+		
+		String json = scnr.next();
+		Storage.accountRelationships = Storage.jsonToAccountRels(json);
+		
+		scnr.close();
+	}
+	
+	public void printAccountRelationships() {
+		PrintWriter pw = this.folder.getPrintWriter(DataFolder.ACCOUNT_RELATIONSHIPS);
+		
+		String json = JSONFormat.formatJSON(Storage.accountRelsToJsonObject(), 0);
+		
+		pw.println(json);
+		pw.close();
 	}
 
 }

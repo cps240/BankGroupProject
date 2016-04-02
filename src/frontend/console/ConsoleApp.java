@@ -21,6 +21,14 @@ public class ConsoleApp{
 		sth.readUsers();
 
 		System.out.println(Storage.users);
+		
+//		Storage.accountRelationships.put("aaaa", 3345);
+//		Storage.accountRelationships.put("bbbb", 7689);
+		
+		System.out.println(Storage.accountRelsToJsonObject());
+		
+		System.out.println(Integer.parseInt(Integer.toHexString(345564332), 16));
+		
 	}
 
 	public static void login() {

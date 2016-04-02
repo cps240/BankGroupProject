@@ -1,10 +1,14 @@
 package backend.auth;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
+import backend.Account;
 import backend.auth.errors.PasswordAlreadySetError;
 import backend.auth.errors.PasswordMissmatchException;
 import backend.auth.errors.UserAlreadyStoredException;
+import backend.auth.security.Decriptions;
+import backend.auth.security.Encriptions;
 import backend.storage.Storage;
 import utils.jsonConversion.JSONMappable;
 
@@ -25,6 +29,8 @@ public abstract class User implements JSONMappable {
 	public String lastName;
 	public String gender;
 	public String phoneNumber;
+	
+	private HashMap<Class<? extends Account>, Account> accounts = new HashMap<Class<? extends Account>, Account>();
 	
 	private boolean isLoggedIn = false;
 	
@@ -133,11 +139,11 @@ class Password {
 	}
 	
 	private void encriptNumber(){
-		this.value = Encriptions.toShiftedNumberLine(this.value, this.SHIFT_VALUE);
+		this.value = Encriptions.encript(this.value);
 	}
 	
 	private void decipherNumber(){
-		this.value = Encriptions.fromShiftedNumberLine(this.value, this.SHIFT_VALUE);
+		this.value = Decriptions.decript(this.value);
 	}
 	
 	public boolean equals(Password other) {

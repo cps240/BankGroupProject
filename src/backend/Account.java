@@ -6,6 +6,8 @@ import backend.auth.User;
 import backend.auth.errors.PasswordMissmatchException;
 import backend.auth.errors.UserNotAuthenticatedException;
 import backend.auth.errors.UserNotFoundException;
+import backend.errors.AccountAlreadyStoredException;
+import backend.storage.Storage;
 
 public abstract class Account {
 
@@ -16,6 +18,7 @@ public abstract class Account {
 	
 	protected double balance;
 	protected Customer owner;
+	protected String accountNumber;
 	
 	public Account(Customer _owner) throws UserNotFoundException {
 		if (_owner.userId != null) {
@@ -23,6 +26,27 @@ public abstract class Account {
 		} else {
 			throw new UserNotFoundException(_owner.getUsername());
 		}
+	}
+	
+	public Customer getOwner() {
+		return this.owner;
+	}
+	
+	/**
+	 * sets the initial account number for this account.
+	 * @throws AccountAlreadyStoredException 
+	 */
+	public void initializeAccount() throws AccountAlreadyStoredException {
+		if (this.accountNumber == null) {
+			this.accountNumber = Storage.nextAccountId;
+			Storage.incrementAccountId();
+		} else {
+			throw new AccountAlreadyStoredException(this);
+		}
+	}
+	
+	public String getAccountNumber() {
+		return this.accountNumber;
 	}
 	
 	/**
@@ -66,11 +90,29 @@ public abstract class Account {
 		}
 	}
 	
+	/**
+	 * withdrawal money.
+	 * In order to do this, you must have permission from an employee. An ATM machine will count as an employee.
+	 * @param _amount
+	 * @param _user
+	 * @param _password
+	 * @throws PasswordMissmatchException
+	 * @throws UserNotAuthenticatedException
+	 */
 	public void doWithdrawal(double _amount, Employee _user, String _password) throws PasswordMissmatchException, UserNotAuthenticatedException {
 		double newBal = this.getBalance(_user, _password) - _amount;
 		this.setBalance(newBal, _user, _password);
 	}
 	
+	/**
+	 * deposit money.
+	 * In order to do this, you must have permission from an employee. An ATM machine will count as an employee.
+	 * @param _amount
+	 * @param _user
+	 * @param _password
+	 * @throws PasswordMissmatchException
+	 * @throws UserNotAuthenticatedException
+	 */
 	public void doDeposit(double _amount, Employee _user, String _password) throws PasswordMissmatchException, UserNotAuthenticatedException {
 		double newBal = this.getBalance(_user, _password) + _amount;
 		this.setBalance(newBal, _user, _password);

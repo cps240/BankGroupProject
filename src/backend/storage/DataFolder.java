@@ -32,11 +32,14 @@ public class DataFolder {
 	 *{@code <ROOT_PATH>/users.json}
 	 */
 	public static final int USERS_STORAGE = 0;
+	
+	public static final int ACCOUNT_RELATIONSHIPS = 1;
 
 	public DataFolder(String _rootPath) {
 		// TODO Auto-generated constructor stub
 		this.ROOT_PATH = _rootPath;
 		this.files.add(USERS_STORAGE, new File(this.ROOT_PATH + "users.json"));
+		this.files.add(ACCOUNT_RELATIONSHIPS, new File(this.ROOT_PATH + "accountRelationships.json"));
 	}
 	
 	public PrintWriter getPrintWriter(int fileIndicator) {

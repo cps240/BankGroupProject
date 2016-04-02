@@ -1,5 +1,8 @@
 package utils.jsonConversion;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -89,6 +92,17 @@ public abstract class JSONFormat {
 		}
 		
 		return jsonString;
+	}
+	
+	public static JSONObject hashMapToJSON(Map _map) {
+		JSONObject json = new JSONObject();
+		
+		for (Object entryObject : _map.entrySet()) {
+			Entry<?, ?> entry = (Entry) entryObject;
+			json.put(entry.getKey(), entry.getValue());
+		}
+		
+		return json;
 	}
 
 }
