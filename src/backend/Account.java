@@ -7,18 +7,30 @@ import backend.auth.errors.PasswordMissmatchException;
 import backend.auth.errors.UserNotAuthenticatedException;
 import backend.auth.errors.UserNotFoundException;
 import backend.errors.AccountAlreadyStoredException;
+import backend.errors.LowAccountBalanceException;
 import backend.storage.Storage;
 
 public abstract class Account {
-
-	/**
-	 * Accounts cannot go below this balance.
-	 */
-	public static double MIN_BAL_ALLOWED = 50.00;
 	
 	protected double balance;
 	protected Customer owner;
 	protected String accountNumber;
+	
+	public META META = new META();
+	
+	/**
+	 * will contain behavioral attributes such as minimum balance allowed and other
+	 * guidelines.
+	 * @author Ian
+	 *
+	 */
+	public class META {
+		
+		/**
+		 * Accounts cannot go below this balance.
+		 */
+		public double MIN_BAL_ALLOWED = 50.00;
+	}
 	
 	public Account(Customer _owner) throws UserNotFoundException {
 		if (_owner.userId != null) {
@@ -39,7 +51,7 @@ public abstract class Account {
 	public void initializeAccount() throws AccountAlreadyStoredException {
 		if (this.accountNumber == null) {
 			this.accountNumber = Storage.nextAccountId;
-			Storage.incrementAccountId();
+			Storage.nextAccountId = Storage.incrementAccountId();
 		} else {
 			throw new AccountAlreadyStoredException(this);
 		}
@@ -99,7 +111,7 @@ public abstract class Account {
 	 * @throws PasswordMissmatchException
 	 * @throws UserNotAuthenticatedException
 	 */
-	public void doWithdrawal(double _amount, Employee _user, String _password) throws PasswordMissmatchException, UserNotAuthenticatedException {
+	public void doWithdrawal(double _amount, Employee _user, String _password) throws PasswordMissmatchException, UserNotAuthenticatedException, LowAccountBalanceException {
 		double newBal = this.getBalance(_user, _password) - _amount;
 		this.setBalance(newBal, _user, _password);
 	}

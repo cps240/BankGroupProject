@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import org.json.simple.parser.ParseException;
 
+import backend.Account;
+import backend.CheckingAccount;
+import backend.SavingsAccount;
+import backend.auth.Authentication;
 import backend.auth.Customer;
 import backend.auth.Employee;
 import backend.auth.User;
@@ -19,16 +23,14 @@ public class ConsoleApp{
 		StorageHandler sth = new StorageHandler("storage/");
 		
 		sth.readUsers();
+		sth.readAccountRelationships();
 
-		System.out.println(Storage.users);
+		User joe = Authentication.getUser(3);
 		
-//		Storage.accountRelationships.put("aaaa", 3345);
-//		Storage.accountRelationships.put("bbbb", 7689);
+		Account acc = new SavingsAccount((Customer) joe);
+		sth.saveAccount(acc);
 		
-		System.out.println(Storage.accountRelsToJsonObject());
-		
-		System.out.println(Integer.parseInt(Integer.toHexString(345564332), 16));
-		
+		sth.printAccountRelationships();
 	}
 
 	public static void login() {

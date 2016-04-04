@@ -67,7 +67,9 @@ public abstract class Storage {
 	 */
 	public static String incrementAccountId() {
 		Long nai = Long.parseLong(nextAccountId, 16) + 1;
-		return Long.toHexString(nai);
+		String hexCode = Long.toHexString(nai);
+		hexCode = ("000000000000000" + hexCode).substring(hexCode.length());
+		return hexCode;
 	}
 	
 	/**
@@ -169,8 +171,8 @@ public abstract class Storage {
 			if (((Entry) entryObject).getKey().equals("nextAccountId")) {
 				nextAccountId = (String) json.get("nextAccountId");
 			} else {
-				Entry<String, Integer> entry = (Entry<String, Integer>) entryObject;
-				accRels.put(entry.getKey(), entry.getValue());
+				Entry entry = (Entry) entryObject;
+				accRels.put((String) entry.getKey(), new Integer(((Long) entry.getValue()).intValue()));
 			}
 		}
 		
