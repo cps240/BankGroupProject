@@ -1,7 +1,4 @@
 Account
-  * setting where account will pull from other shared accounts if it gets too low.
-  * setting to allow overdraft Withdrawals
-  * apply for loan
   - Checkin
   - Savings
 User
@@ -24,13 +21,12 @@ Functionality
     - reports
       - accounts
       - transaction per day
-      - approve account
+      -? approve account
         - if so, automatically generate account based on request
       - deactivate accounts
 
   - Program side
-    - check for interest
-    - warnings for low balances and other notifications
+    -? warnings for low balances and other notifications
 
 store data in json files
 accounts will be folder systems
