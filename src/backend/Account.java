@@ -129,4 +129,20 @@ public abstract class Account {
 		double newBal = this.getBalance(_user, _password) + _amount;
 		this.setBalance(newBal, _user, _password);
 	}
+	
+	/**
+	 * transfer money FROM one account TO another. must have correct password
+	 * @param _fromAccount - account being pulled from
+	 * @param _toAccount - account being deposited into
+	 * @param _user - employee that is authorizing the withdrawal. This could be an ATM machine
+	 * @param _userPassword - password of the employee authorizing the transfer.
+	 * @param _amount - amount of money being transferred
+	 * @throws LowAccountBalanceException 
+	 * @throws UserNotAuthenticatedException 
+	 * @throws PasswordMissmatchException 
+	 */
+	public static void doTransfer(Account _fromAccount, Account _toAccount, Employee _user, String _userPassword, double _amount) throws PasswordMissmatchException, UserNotAuthenticatedException, LowAccountBalanceException {
+		_fromAccount.doWithdrawal(_amount, _user, _userPassword);
+		_toAccount.doDeposit(_amount, _user, _userPassword);
+	}
 }
