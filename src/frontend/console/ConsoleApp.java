@@ -25,12 +25,21 @@ public class ConsoleApp{
 		sth.readUsers();
 		sth.readAccountRelationships();
 
-		User joe = Authentication.getUser(3);
+		Customer joe = (Customer) Authentication.getUser(3);
+		Employee ian = (Employee) Authentication.getUser(1);
+		ian.initializePassword("saline54");
 		
-		Account acc = new SavingsAccount((Customer) joe);
-		sth.saveAccount(acc);
+//		Account acc = joe.getAccount(SavingsAccount.class);
+		
+		joe.addAccount(SavingsAccount.class, ian, "saline54");
+		
+		Account acc = joe.getAccount(SavingsAccount.class);
+		acc.doDeposit(30.00, ian, "saline54");
+		
+		System.out.println(acc.getBalance(ian, "saline54"));
 		
 		sth.printAccountRelationships();
+		sth.printUsers();
 	}
 
 	public static void login() {

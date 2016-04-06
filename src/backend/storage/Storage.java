@@ -1,5 +1,7 @@
 package backend.storage;
 
+import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +15,9 @@ import org.json.simple.parser.ParseException;
 import backend.Account;
 import backend.CheckingAccount;
 import backend.SavingsAccount;
+import backend.Settings;
 import backend.auth.Authentication;
+import backend.auth.Customer;
 import backend.auth.User;
 import backend.auth.errors.UserNotFoundException;
 import utils.jsonConversion.JSONClassMapping;
@@ -130,13 +134,18 @@ public abstract class Storage {
 					User parsedUser;
 					try {
 						parsedUser = (User) JSONClassMapping.jsonAnyToObject(userAsJsonObject);
+						users.get(userType.getKey()).add(parsedUser);
+						
+						//add accountsPath file to storage folder keys.
+						if (parsedUser instanceof Customer) {
+							String accountsKey = ((Customer) parsedUser).getAccountsPathFileKey();
+							Settings.storage.folder.addFile(accountsKey, new File(((Customer) parsedUser).pathToAccountsPathStorage()));
+						}
 					} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
 							| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 						// TODO Auto-generated catch block
 						throw new JsonParseError(e.getMessage());
 					}
-					
-					users.get(userType.getKey()).add(parsedUser);
 				}
 			}
 		}
@@ -172,10 +181,98 @@ public abstract class Storage {
 				nextAccountId = (String) json.get("nextAccountId");
 			} else {
 				Entry entry = (Entry) entryObject;
-				accRels.put((String) entry.getKey(), new Integer(((Long) entry.getValue()).intValue()));
+				String accountId = (String) entry.getKey();
+				Integer userId = new Integer(((Long) entry.getValue()).intValue());
+				accRels.put(accountId, userId);
+				
+				try {
+					Customer c = (Customer) Authentication.getUser(userId);
+					//add this account to the users hashmap of accounts.
+				} catch (UserNotFoundException e) {
+					// TODO Auto-generated catch block
+					throw new JsonParseError(e.getMessage());
+				}
 			}
 		}
 		
 		return accRels;
+	}
+	
+	public static HashMap<String, String[]> getAccountsForCustomer(Customer _customer, String _jsonString) throws ParseException {
+		JSONObject json = (JSONObject) new JSONParser().parse(_jsonString);
+		HashMap<String, String[]> accounts = new HashMap<String, String[]>();
+		
+		/*
+		 * Format of file expected:
+		 * 
+		 * ===start of file
+		 * {
+		 * 		"Checking": [<accountId>, <pathToAccount>],
+		 * 		"Savings": [<accountId>, <pathToAccount>]
+		 * }
+		 * ===end of file
+		 */
+		
+		//get checking account
+		if (json.containsKey("Checking")) {
+			String accountId = (String) ((JSONArray) json.get("Checking")).get(0);
+			String pathToAccount = (String) ((JSONArray) json.get("Checking")).get(1);
+			accounts.put(accountId, new String[]{pathToAccount, CheckingAccount.class.getName()});
+		}
+		
+		//get savings account
+		if (json.containsKey("Savings")) {
+			String accountId = (String) ((JSONArray) json.get("Savings")).get(0);
+			String pathToAccount = (String) ((JSONArray) json.get("Savings")).get(1);
+			accounts.put(accountId, new String[]{pathToAccount, CheckingAccount.class.getName()});
+		}
+		
+		return accounts;
+	}
+	
+	/**
+	 * returns the account stored as a string which is _fileContents. This comes from the file in the users folder.
+	 * 
+	 * format of _fileContents should be:
+	 * 
+	 * {
+	 * 		"type": "<class name for account type>",
+	 * 		"balance": ?????.??
+	 * }
+	 * @param _fileContents
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static Account getAccountFromString(Customer _owner, String _acctId, String _fileContents) throws ParseException {
+		JSONObject json = (JSONObject) new JSONParser().parse(_fileContents);
+		
+		/*
+		 * To create the account, we have to use java.lang.reflect. This allows us to call the constructor
+		 * from savings account or checking account without casting it to either of those. the class type will be
+		 * found by getting the class stored in the json key: "type"
+		 * 
+		 * constructorArgs is a list of parameter types so that we can get the constructor from the account type.
+		 */
+		Class<?>[] constructorArgs = new Class<?>[] {
+			Customer.class
+		};
+		
+		//get the account type
+		try {
+			Class accountType = Class.forName((String) json.get("type"));
+			
+			//get the constructor for the account type
+			Constructor constructor = accountType.getConstructor(constructorArgs);
+			
+			//instantiate account by calling constructor
+			Account acct = (Account) constructor.newInstance(_owner);
+			acct.accountNumber = _acctId;
+			acct.overrideSetBalance((double) json.get("balance"));
+			return acct;
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+				| InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			throw new JsonParseError(e.getMessage());
+		}
 	}
 }

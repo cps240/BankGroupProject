@@ -26,6 +26,16 @@ public class CheckingAccount extends Account {
 	}
 	
 	@Override
+	public void doDeposit(double _amount, Employee _user, String _password) throws PasswordMissmatchException, UserNotAuthenticatedException, LowAccountBalanceException {
+		if (this.META.MIN_BAL_ALLOWED > this.balance + _amount) {
+			// don't let the user withdrawal anymore. he would be going under the minimum limit.
+			throw new LowAccountBalanceException(this);
+		} else {
+			super.doDeposit(_amount, _user, _password);
+		}
+	}
+	
+	@Override
 	public void doWithdrawal(double _amount, Employee _user, String _password) throws PasswordMissmatchException, UserNotAuthenticatedException, LowAccountBalanceException {
 		if (this.META.MIN_BAL_ALLOWED > this.balance - _amount) {
 			// don't let the user withdrawal anymore. he would be going under the minimum limit.

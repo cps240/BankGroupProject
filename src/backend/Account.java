@@ -1,5 +1,7 @@
 package backend;
 
+import org.json.simple.JSONObject;
+
 import backend.auth.Customer;
 import backend.auth.Employee;
 import backend.auth.User;
@@ -12,9 +14,9 @@ import backend.storage.Storage;
 
 public abstract class Account {
 	
-	protected double balance;
+	protected Double balance;
 	protected Customer owner;
-	protected String accountNumber;
+	public String accountNumber;
 	
 	public META META = new META();
 	
@@ -45,6 +47,21 @@ public abstract class Account {
 	}
 	
 	/**
+	 * Use this to pass to {@code Settings.storage.folder.files} as the key to return the path to the file
+	 * in which this account is stored.
+	 * @return
+	 */
+	public String getAccountFolderKey() {
+		String key = this.getOwner().getAccountsFolderKey() + ":acc_" + this.accountNumber;
+		return key;
+	}
+	
+	public String pathToAccountFile() {
+		String path = this.getOwner().pathToCustomerFolder() + this.getClass().getSimpleName().toLowerCase() + "s/acct_" + this.accountNumber + ".json";
+		return path;
+	}
+	
+	/**
 	 * sets the initial account number for this account.
 	 * @throws AccountAlreadyStoredException 
 	 */
@@ -52,6 +69,7 @@ public abstract class Account {
 		if (this.accountNumber == null) {
 			this.accountNumber = Storage.nextAccountId;
 			Storage.nextAccountId = Storage.incrementAccountId();
+			Storage.accountRelationships.put(this.accountNumber, this.getOwner().userId);
 		} else {
 			throw new AccountAlreadyStoredException(this);
 		}
@@ -125,7 +143,7 @@ public abstract class Account {
 	 * @throws PasswordMissmatchException
 	 * @throws UserNotAuthenticatedException
 	 */
-	public void doDeposit(double _amount, Employee _user, String _password) throws PasswordMissmatchException, UserNotAuthenticatedException {
+	public void doDeposit(double _amount, Employee _user, String _password) throws PasswordMissmatchException, UserNotAuthenticatedException, LowAccountBalanceException {
 		double newBal = this.getBalance(_user, _password) + _amount;
 		this.setBalance(newBal, _user, _password);
 	}
@@ -144,5 +162,24 @@ public abstract class Account {
 	public static void doTransfer(Account _fromAccount, Account _toAccount, Employee _user, String _userPassword, double _amount) throws PasswordMissmatchException, UserNotAuthenticatedException, LowAccountBalanceException {
 		_fromAccount.doWithdrawal(_amount, _user, _userPassword);
 		_toAccount.doDeposit(_amount, _user, _userPassword);
+	}
+	
+	/**
+	 * This is only allowed if balance is currently null (hasn't been set yet).
+	 * @param _balance
+	 */
+	public void overrideSetBalance(double _balance) {
+		if (this.balance == null) {
+			this.balance = _balance;
+		} else {
+			throw new SecurityException("Not allowed to override setBalance unless current balance is null (hasn't been set yet).");
+		}
+	}
+	
+	public JSONObject toJson() {
+		JSONObject json = new JSONObject();
+		json.put("type", this.getClass().getName());
+		json.put("balance", this.balance);
+		return json;
 	}
 }

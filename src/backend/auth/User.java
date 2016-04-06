@@ -30,8 +30,6 @@ public abstract class User implements JSONMappable {
 	public String gender;
 	public String phoneNumber;
 	
-	private HashMap<Class<? extends Account>, Account> accounts = new HashMap<Class<? extends Account>, Account>();
-	
 	private boolean isLoggedIn = false;
 	
 	public User(String _firstName, String _lastName, String _gender, String _phoneNumber){

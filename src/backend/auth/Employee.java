@@ -13,10 +13,11 @@ public class Employee extends User {
 		this.isATM = _isATM;
 	}
 	
-	public Employee(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber) {
+	public Employee(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber, Boolean _isATM) {
 		super(_firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
 		this.userId = _userId;
+		this.isATM = _isATM;
 	}
 
 	@Override

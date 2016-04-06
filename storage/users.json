@@ -29,6 +29,7 @@
 	"Employees": [
 		{
 			"2#java.lang.String#_firstName": "Joe",
+			"6#java.lang.Boolean#_isATM": false,
 			"3#java.lang.String#_lastName": "Schmoe",
 			"4#java.lang.String#_gender": "M",
 			"5#java.lang.String#_phoneNumber": "(567) 123 - 4567",
