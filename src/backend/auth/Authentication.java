@@ -47,7 +47,7 @@ public abstract class Authentication {
 	public static User getUser(Integer _userId) throws UserNotFoundException {
 		for (Entry<String, ArrayList<User>> userType : Storage.users.entrySet()) {
 			for (User user : userType.getValue()) {
-				if (user.userId == _userId) {
+				if (user.userId.equals(_userId)) {
 					return user;
 				}
 			}

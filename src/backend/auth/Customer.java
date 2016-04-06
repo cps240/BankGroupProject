@@ -58,15 +58,23 @@ public class Customer extends User {
 	 * This is called by {@code addAccount} if and only if the account type to add
 	 * is a checking account.
 	 * @throws UserNotFoundException if this user is not a saved user. more specifically, if the userId is null.
+	 * @throws AccountAlreadyStoredException 
 	 */
-	private void addCheckingAccount() throws UserNotFoundException {
-		CheckingAccount checkingAcct = new CheckingAccount(this);
-		this.accounts.put(CheckingAccount.class, checkingAcct);
+	private void addCheckingAccount() throws UserNotFoundException, AccountAlreadyStoredException {
+		/*
+		 * Make sure that this account does not exist already. if so, throw an error
+		 * do the same for savings account.
+		 */
+		if (!this.accounts.containsKey(CheckingAccount.class)) {
+			CheckingAccount checkingAcct = new CheckingAccount(this);
+			this.accounts.put(CheckingAccount.class, checkingAcct);
+		} else {
+			throw new AccountAlreadyStoredException(CheckingAccount.class);
+		}
 	}
 	
 	public void addAccountFromStorage(Account _account) throws AccountAlreadyStoredException {
-		//path to this users folder
-		if (this.accounts.containsKey(_account.getClass())) {
+		if (!this.accounts.containsKey(_account.getClass())) {
 			this.accounts.put(_account.getClass(), _account);
 		} else {
 			throw new AccountAlreadyStoredException(_account);
@@ -77,10 +85,19 @@ public class Customer extends User {
 	 * This is called by {@code addAccount} if and only if the account type to add
 	 * is a savings account.
 	 * @throws UserNotFoundException if this user is not a saved user. more specifically, if the userId is null
+	 * @throws AccountAlreadyStoredException 
 	 */
-	private void addSavingsAccount() throws UserNotFoundException {
-		SavingsAccount savingsAcct = new SavingsAccount(this);
-		this.accounts.put(SavingsAccount.class, savingsAcct);
+	private void addSavingsAccount() throws UserNotFoundException, AccountAlreadyStoredException {
+		/*
+		 * Make sure that this account does not exist already. if so, throw an error
+		 * do the same for checkin account.
+		 */
+		if (!this.accounts.containsKey(SavingsAccount.class)) {
+			SavingsAccount savingsAcct = new SavingsAccount(this);
+			this.accounts.put(SavingsAccount.class, savingsAcct);
+		} else {
+			throw new AccountAlreadyStoredException(SavingsAccount.class);
+		}
 	}
 
 	@Override

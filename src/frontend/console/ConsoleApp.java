@@ -27,16 +27,16 @@ public class ConsoleApp{
 		sth.readAccountRelationships();
 
 		Customer joe = (Customer) Authentication.getUser(3);
+		Customer wynton = (Customer) Authentication.getUser(5);
+		
 		sth.readAccountsForCustomer(joe);
 		Employee ian = (Employee) Authentication.getUser(1);
 		ian.initializePassword("saline54");
 		
-//		Account acc = joe.getAccount(SavingsAccount.class);
+		joe.addAccount(CheckingAccount.class, ian, "saline54");
 		
-		joe.addAccount(SavingsAccount.class, ian, "saline54");
-		
-		Account acc = joe.getAccount(SavingsAccount.class);
-		acc.overrideSetBalance(200.00);
+		Account acc = joe.getAccount(CheckingAccount.class);
+		acc.overrideSetBalance(150.50);
 		sth.folder.initializeAccountFile(acc);
 		
 		sth.printAccountRelationships();

@@ -94,18 +94,11 @@ public class DataFolder {
 	
 	public void initializeAccountFile(Account _account) throws AccountAlreadyStoredException {
 		File accountFile = new File(_account.pathToAccountFile());
-		System.out.println("trying to create file");
 		try {
-			System.out.println("hi");
-			System.exit(1);
-//			boolean created = accountFile.createNewFile();
-			System.out.println("Created: " + created);
-			System.exit(1);
 			if (!accountFile.createNewFile()) {
 				throw new AccountAlreadyStoredException(_account);
 			} else {
 				//print account to it's file
-				System.out.println("created account: " + accountFile.getAbsolutePath());
 				Settings.storage.printAccountToFile(_account);
 			}
 		} catch (IOException e) {

@@ -11,6 +11,7 @@ import javax.security.auth.login.AccountNotFoundException;
 
 import java.util.Map.Entry;
 
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import backend.Account;
@@ -122,10 +123,15 @@ public class StorageHandler {
 			
 			//add account to users accounts
 			//must get account from the file though. do this in storage.
+			System.out.println(_customer);
+			System.out.println(accountsForUser);
 			for (Entry<String, String[]> entry : accountsForUser.entrySet()) {
 				Account acct = getAccountFromFile(_customer, entry);
 				_customer.addAccountFromStorage(acct);
+				System.out.println("acct");
 			}
+			System.out.println("exiting");
+			System.exit(1);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,6 +174,7 @@ public class StorageHandler {
 			Account acct = entry.getValue();
 			this.printAccountToFile(acct);
 		}
+		//have to add the path for this to users accounts_path.json file.
 	}
 	
 	/**
