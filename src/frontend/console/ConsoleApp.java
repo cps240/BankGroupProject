@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import backend.Account;
 import backend.CheckingAccount;
 import backend.SavingsAccount;
+import backend.Settings;
 import backend.auth.Authentication;
 import backend.auth.Customer;
 import backend.auth.Employee;
@@ -26,6 +27,7 @@ public class ConsoleApp{
 		sth.readAccountRelationships();
 
 		Customer joe = (Customer) Authentication.getUser(3);
+		sth.readAccountsForCustomer(joe);
 		Employee ian = (Employee) Authentication.getUser(1);
 		ian.initializePassword("saline54");
 		
@@ -34,12 +36,12 @@ public class ConsoleApp{
 		joe.addAccount(SavingsAccount.class, ian, "saline54");
 		
 		Account acc = joe.getAccount(SavingsAccount.class);
-		acc.doDeposit(30.00, ian, "saline54");
-		
-		System.out.println(acc.getBalance(ian, "saline54"));
+		acc.overrideSetBalance(200.00);
+		sth.folder.initializeAccountFile(acc);
 		
 		sth.printAccountRelationships();
 		sth.printUsers();
+		sth.printAccountsForCustomer(joe);
 	}
 
 	public static void login() {
