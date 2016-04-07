@@ -12,6 +12,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import java.util.Map.Entry;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import backend.Account;
@@ -123,15 +124,10 @@ public class StorageHandler {
 			
 			//add account to users accounts
 			//must get account from the file though. do this in storage.
-			System.out.println(_customer);
-			System.out.println(accountsForUser);
 			for (Entry<String, String[]> entry : accountsForUser.entrySet()) {
 				Account acct = getAccountFromFile(_customer, entry);
 				_customer.addAccountFromStorage(acct);
-				System.out.println("acct");
 			}
-			System.out.println("exiting");
-			System.exit(1);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -169,12 +165,24 @@ public class StorageHandler {
 		return null;
 	}
 	
-	public void printAccountsForCustomer(Customer _customer) throws AccountNotFoundException {
+	public void printAccountsForCustomer(Customer _customer) throws AccountNotFoundException, ParseException, AccountAlreadyStoredException {
+		try {
+			/*
+			 * Refresh the accounts_paths file to an empty json file
+			 */
+			PrintWriter pw = new PrintWriter(_customer.pathToAccountsPathStorage());
+			pw.print("{}");
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		for (Entry<Class<? extends Account>, Account> entry : _customer.getAccounts().entrySet()) {
 			Account acct = entry.getValue();
 			this.printAccountToFile(acct);
+			this.addAccountToPaths(acct);
 		}
-		//have to add the path for this to users accounts_path.json file.
 	}
 	
 	/**
@@ -193,6 +201,34 @@ public class StorageHandler {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			throw new AccountNotFoundException("Account with accountId " + _account.accountNumber + " does not have a storage file.\r\nPlease initialize the file with the account.");
+		}
+	}
+	
+	/**
+	 * This will add the account to the users record. I will read the accounts_paths.json file and
+	 * add _account to that json if and only if the account is fully initialized and the user does not already have an account
+	 * of this type already.
+	 * @param _account
+	 * @throws ParseException 
+	 * @throws AccountAlreadyStoredException 
+	 */
+	public void addAccountToPaths(Account _account) throws ParseException, AccountAlreadyStoredException {
+		Scanner scnr = new Scanner(_account.getOwner().pathToAccountsPathStorage()).useDelimiter("\\Z");
+		JSONObject json = new JSONObject();
+		if (!json.containsKey(_account.keyForAccountsPathFile())) {
+			json.put(_account.keyForAccountsPathFile(), _account.jsonPathValue());
+		} else {
+			throw new AccountAlreadyStoredException(_account.getClass());
+		}
+		scnr.close();
+		
+		try {
+			PrintWriter pw = new PrintWriter(_account.getOwner().pathToAccountsPathStorage());
+			pw.print(JSONFormat.formatJSON(json, 0));
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

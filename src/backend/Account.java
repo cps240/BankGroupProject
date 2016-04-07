@@ -1,5 +1,6 @@
 package backend;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import backend.auth.Customer;
@@ -181,5 +182,27 @@ public abstract class Account {
 		json.put("type", this.getClass().getName());
 		json.put("balance", this.balance);
 		return json;
+	}
+	
+	/**
+	 * used to store this accounts path in the accounts_paths.json file.
+	 * @return
+	 */
+	public JSONArray jsonPathValue() {
+		JSONArray json = new JSONArray();
+		json.add(this.accountNumber);
+		json.add(this.pathToAccountFile());
+		
+		return json;
+	}
+	
+	public String keyForAccountsPathFile() {
+		if(this instanceof CheckingAccount) {
+			return "Checking";
+		} else if (this instanceof SavingsAccount) {
+			return "Savings";
+		} else {
+			return null;
+		}
 	}
 }
