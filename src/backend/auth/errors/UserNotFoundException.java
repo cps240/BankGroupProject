@@ -11,5 +11,10 @@ public class UserNotFoundException extends Exception {
 		// TODO Auto-generated constructor stub
 		super("User with id: " + _identifier + " does not exist.");
 	}
+	
+	public UserNotFoundException() {
+		// TODO Auto-generated constructor stub
+		super("User does not exist.");
+	}
 
 }

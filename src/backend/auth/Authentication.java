@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import backend.Settings;
 import backend.auth.errors.PasswordMissmatchException;
+import backend.auth.errors.UserAlreadyStoredException;
 import backend.auth.errors.UserNotFoundException;
 import backend.storage.Storage;
 
@@ -75,9 +77,35 @@ public abstract class Authentication {
 	 * @param _lastName
 	 * @param _gender
 	 * @param _phoneNumber
+	 * @throws UserAlreadyStoredException 
+	 * @throws UserNotFoundException 
 	 */
-	public static void addUser(String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) {
-		
+	public static void addUser(Class<? extends User> _type, String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) throws UserAlreadyStoredException, UserNotFoundException {
+		if (_type.equals(Customer.class)) {
+			/*
+			 * create customer with the parameters
+			 * 
+			 * steps to take:
+			 * 1. create user
+			 * 2. initialize customer with id
+			 * 3. create folder for user
+			 */
+			Customer cust = new Customer(_firstName, _lastName, _gender, _phoneNumber);
+			cust.initializeUser();
+			Settings.storage.folder.addCustomerFolder(cust);
+			Storage.users.get("Customers").add(cust);
+		} else {
+			/*
+			 * create employee with parameters
+			 * 
+			 * steps to take
+			 * 1. create employee
+			 * 2. initialize employee
+			 */
+			Employee emp = new Employee(_firstName, _lastName, _gender, _phoneNumber, false);
+			emp.initializeUser();
+			Storage.users.get("Employees").add(emp);
+		}
 	}
 	
 	/**

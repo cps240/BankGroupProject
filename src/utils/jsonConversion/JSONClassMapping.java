@@ -9,6 +9,8 @@ import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import backend.auth.Password;
+
 public final class JSONClassMapping {
 		
 		public static Object jsonFieldToObject(String key, Object jsonVal) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -137,6 +139,9 @@ public final class JSONClassMapping {
 			
 			if (o.getClass().equals(Long.class) && (Long) o < Integer.MAX_VALUE) {
 				retVal = (Integer) ((Long) o).intValue();
+			} else if (o instanceof String && ((String) o).contains("ENCRIPTED:")) {
+				String passwordValue = ((String) o).replace("ENCRIPTED:", "");
+				retVal = new Password(passwordValue, true);
 			} else {
 				retVal = o;
 			}

@@ -13,8 +13,8 @@ public class Employee extends User {
 		this.isATM = _isATM;
 	}
 	
-	public Employee(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber, Boolean _isATM) {
-		super(_firstName, _lastName, _gender, _phoneNumber);
+	public Employee(Integer _userId, String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber, Boolean _isATM) {
+		super(_username, _password, _firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
 		this.userId = _userId;
 		this.isATM = _isATM;
@@ -26,6 +26,8 @@ public class Employee extends User {
 		try {
 			return this.getClass().getConstructor(
 				Integer.class,
+				String.class,
+				String.class,
 				String.class,
 				String.class,
 				String.class,
@@ -47,6 +49,8 @@ public class Employee extends User {
 		// TODO Auto-generated method stub
 		return new String[]{
 				"userId",
+				"username",
+				"password",
 				"firstName",
 				"lastName",
 				"gender",

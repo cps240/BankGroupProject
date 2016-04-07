@@ -12,6 +12,9 @@ import javax.security.auth.login.AccountNotFoundException;
 
 import backend.Account;
 import backend.Settings;
+import backend.auth.Customer;
+import backend.auth.errors.UserAlreadyStoredException;
+import backend.auth.errors.UserNotFoundException;
 import backend.errors.AccountAlreadyStoredException;
 
 /**
@@ -108,6 +111,48 @@ public class DataFolder {
 			// TODO Auto-generated catch block
 			//This won't ever happen because we create the file above.
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * initialize a user storage folder. The file hierarchy looks like so:
+	 * <br>
+	 * - customer_<userId>/
+	 * 		- accounts_paths.json
+	 * 		- checkingaccounts/
+	 * 		- savingsaccounts/
+	 * 
+	 * @param _customer
+	 * @throws UserNotFoundException
+	 * @throws UserAlreadyStoredException
+	 */
+	public void addCustomerFolder(Customer _customer) throws UserNotFoundException, UserAlreadyStoredException {
+		if (_customer.userId == null) {
+			throw new UserNotFoundException();
+		} else {
+			File customerFile = new File(_customer.pathToCustomerFolder());
+			
+			if (customerFile.exists()) {
+				throw new UserAlreadyStoredException(_customer.userId);
+			} else {
+				customerFile.mkdir();
+				//create folders to hold accounts.
+				File checkingFolder = new File(_customer.pathToCustomerFolder() + "checkingaccounts/");
+				File savingsFolder = new File(_customer.pathToCustomerFolder() + "savingsaccounts/");
+				//create file with path to accounts
+				try {
+					File acctFilePath = new File(_customer.pathToAccountsPathStorage());
+					acctFilePath.createNewFile();
+					PrintWriter writer = new PrintWriter(acctFilePath);
+					writer.print("{}");
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					checkingFolder.delete();
+					savingsFolder.delete();
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

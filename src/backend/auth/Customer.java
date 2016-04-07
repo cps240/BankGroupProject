@@ -20,8 +20,8 @@ public class Customer extends User {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Customer(Integer _userId, String _firstName, String _lastName, String _gender, String _phoneNumber) {
-		super(_firstName, _lastName, _gender, _phoneNumber);
+	public Customer(Integer _userId, String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) {
+		super(_username, _password, _firstName, _lastName, _gender, _phoneNumber);
 		// TODO Auto-generated constructor stub
 		this.userId = _userId;
 	}
@@ -109,6 +109,8 @@ public class Customer extends User {
 				String.class,
 				String.class,
 				String.class,
+				String.class,
+				String.class,
 				String.class
 			);
 		} catch (NoSuchMethodException e) {
@@ -126,6 +128,8 @@ public class Customer extends User {
 		// TODO Auto-generated method stub
 		return new String[]{
 				"userId",
+				"username",
+				"password",
 				"firstName",
 				"lastName",
 				"gender",

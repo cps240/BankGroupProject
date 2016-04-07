@@ -26,7 +26,7 @@ public class ConsoleApp{
 		sth.readUsers();
 		sth.readAccountRelationships();
 
-		
+		Authentication.addUser(Employee.class, "ianmann56", "saline54", "Ian", "Kirkpatrick", "M", "(734) 352 - 9580");
 		
 		sth.printAccountRelationships();
 		sth.printUsers();

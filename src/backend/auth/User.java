@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import backend.Account;
+import backend.Settings;
 import backend.auth.errors.PasswordAlreadySetError;
 import backend.auth.errors.PasswordMissmatchException;
 import backend.auth.errors.UserAlreadyStoredException;
@@ -14,15 +15,11 @@ import utils.jsonConversion.JSONMappable;
 
 public abstract class User implements JSONMappable {
 	
-	/**
-	 * Used to shift the password encription over.
-	 */
-	public static int ENCRIPTION_SHIFT_VALUE = 13;
 	public static String GENDER_MALE = "M";
 	public static String GENDER_FEMALE = "F";
 
-	private String username;
-	private Password password;
+	public String username;
+	public Password password;
 	
 	public Integer userId;
 	public String firstName;
@@ -34,6 +31,16 @@ public abstract class User implements JSONMappable {
 	
 	public User(String _firstName, String _lastName, String _gender, String _phoneNumber){
 		
+		this.firstName = _firstName;
+		this.lastName = _lastName;
+		this.gender = _gender;
+		this.phoneNumber = _phoneNumber;
+	}
+	
+	public User(String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber){
+		
+		this.username = _username;
+		this.password = new Password(_password);
 		this.firstName = _firstName;
 		this.lastName = _lastName;
 		this.gender = _gender;
@@ -71,7 +78,7 @@ public abstract class User implements JSONMappable {
 	 */
 	public void initializePassword(String _password) {
 		if(this.password == null) {
-			this.password = new Password(_password, User.ENCRIPTION_SHIFT_VALUE);
+			this.password = new Password(_password);
 		} else {
 			throw new PasswordAlreadySetError(this.username);
 		}
@@ -79,7 +86,7 @@ public abstract class User implements JSONMappable {
 	
 	public void setPassword(String _password, String _oldPassword) throws PasswordMissmatchException {
 		if (this.checkPassword(_oldPassword)) {
-			this.password = new Password(_password, User.ENCRIPTION_SHIFT_VALUE);
+			this.password = new Password(_password);
 		} else {
 			throw new PasswordMissmatchException(this.username, _oldPassword);
 		}
@@ -111,56 +118,5 @@ public abstract class User implements JSONMappable {
 	
 	public boolean isLoggedIn() {
 		return this.isLoggedIn;
-	}
-}
-
-class Password {
-
-	private String value;
-	private final int SHIFT_VALUE;
-	
-	public Password(String password, int _shiftValue){
-		this.value = password;
-		this.SHIFT_VALUE = _shiftValue;
-		this.encriptNumber();
-	}
-	
-	public String toString(){
-		return this.value;
-	}
-	
-	private String toDecriptedString() {
-		this.decipherNumber();
-		String toReturn = "DECRIPTED: " + this.value;
-		this.encriptNumber();
-		return toReturn;
-	}
-	
-	private void encriptNumber(){
-		this.value = Encriptions.encript(this.value);
-	}
-	
-	private void decipherNumber(){
-		this.value = Decriptions.decript(this.value);
-	}
-	
-	public boolean equals(Password other) {
-		if (this.toString().equals(other.toString())) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean matches(String _pass) {
-		if (_pass.equals(this.toDecriptedString().split("DECRIPTED: ")[1])) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	protected String override() {
-		return this.toDecriptedString();
 	}
 }

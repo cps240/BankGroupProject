@@ -7,6 +7,8 @@ import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import backend.auth.Password;
+
 public final class ObjectParser {
 	
 	public static <T extends JSONMappable> JSONObject objectToJSON(T object) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException {
@@ -63,6 +65,8 @@ public final class ObjectParser {
 		
 		if (object instanceof Class) {
 			json = ((Class) object).getName();
+		} else if (object instanceof Password) {
+			json = ((Password) object).toString();
 		} else {
 			json = object;
 		}
