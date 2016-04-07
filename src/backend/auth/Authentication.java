@@ -67,6 +67,20 @@ public abstract class Authentication {
 	}
 	
 	/**
+	 * Use this method to create a user. You must pass all the attributes to this method. Therefore, before this is called, you
+	 * will need to get the attributes via input.
+	 * @param _username
+	 * @param _password
+	 * @param _firstName
+	 * @param _lastName
+	 * @param _gender
+	 * @param _phoneNumber
+	 */
+	public static void addUser(String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) {
+		
+	}
+	
+	/**
 	 * This method will take the input from the login prompt and attempt to log the user in. If it can't find the user, it will throw a {@code UserNotFoundException}. if the password is wrong, it will throw a {@code PasswordMissMatchException}.
 	 * @return
 	 * @throws UserNotFoundException 
