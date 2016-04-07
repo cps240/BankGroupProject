@@ -26,22 +26,12 @@ public class ConsoleApp{
 		sth.readUsers();
 		sth.readAccountRelationships();
 
-		Customer joe = (Customer) Authentication.getUser(3);
-		Customer wynton = (Customer) Authentication.getUser(5);
 		
-		sth.readAccountsForCustomer(joe);
-		Employee ian = (Employee) Authentication.getUser(1);
-		ian.initializePassword("saline54");
-		
-		joe.addAccount(CheckingAccount.class, ian, "saline54");
-		
-		Account acc = joe.getAccount(CheckingAccount.class);
-		acc.overrideSetBalance(150.50);
-		sth.folder.initializeAccountFile(acc);
 		
 		sth.printAccountRelationships();
 		sth.printUsers();
-		sth.printAccountsForCustomer(joe);
+		
+		System.out.println("DONE");
 	}
 
 	public static void login() {

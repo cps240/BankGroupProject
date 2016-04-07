@@ -45,6 +45,26 @@ public class StorageHandler {
 		pw.println(jsonOfUsers);
 		
 		pw.close();
+		
+		/*
+		 * print the accounts for this user.
+		 */
+		for (User user : Storage.users.get("Customers")) {
+			if (user instanceof Customer) {
+				try {
+					this.printAccountsForCustomer(((Customer) user));
+				} catch (AccountAlreadyStoredException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (AccountNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public void readUsers() throws ParseException, StorageAlreadyHasDataException {
@@ -55,8 +75,21 @@ public class StorageHandler {
 			HashMap<String, ArrayList<User>> users = Storage.getUsersFromJson(json);
 			
 			Storage.users = users;
-			
 			scnr.close();
+			
+			/*
+			 * Read the accounts for this user.
+			 */
+			for (User user : Storage.users.get("Customers")) {
+				if (user instanceof Customer) {
+					try {
+						this.readAccountsForCustomer(((Customer) user));
+					} catch (AccountAlreadyStoredException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
 		} else {
 			throw new StorageAlreadyHasDataException();
 		}
