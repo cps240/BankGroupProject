@@ -8,6 +8,7 @@ import backend.Account;
 import backend.CheckingAccount;
 import backend.SavingsAccount;
 import backend.Settings;
+import backend.auth.errors.PasswordMissmatchException;
 import backend.auth.errors.UserNotFoundException;
 import backend.errors.AccountAlreadyStoredException;
 
@@ -37,8 +38,9 @@ public class Customer extends User {
 	 * @param _employeePassword
 	 * @throws AccountAlreadyStoredException if the user already has an account of this type.
 	 * @throws UserNotFoundException if this user is not a saved user. more specifically, if the userId is null.
+	 * @throws PasswordMissmatchException 
 	 */
-	public void addAccount(Class<? extends Account> _acctType, Employee _supervisor, String _employeePassword) throws AccountAlreadyStoredException, UserNotFoundException {
+	public void addAccount(Class<? extends Account> _acctType, Employee _supervisor, String _employeePassword) throws AccountAlreadyStoredException, UserNotFoundException, PasswordMissmatchException {
 		if (_supervisor.checkPassword(_employeePassword)) {
 			if (this.accounts.containsKey(_acctType)) {
 				throw new AccountAlreadyStoredException(this.accounts.get(_acctType));
@@ -51,6 +53,8 @@ public class Customer extends User {
 				}
 				this.accounts.get(_acctType).initializeAccount();
 			}
+		} else {
+			throw new PasswordMissmatchException(_supervisor.username, _employeePassword);
 		}
 	}
 	
