@@ -91,6 +91,7 @@ public abstract class Authentication {
 			 * 3. create folder for user
 			 */
 			Customer cust = new Customer(_firstName, _lastName, _gender, _phoneNumber);
+			cust.initializeLoginInfo(_username, _password);
 			cust.initializeUser();
 			Settings.storage.folder.addCustomerFolder(cust);
 			Storage.users.get("Customers").add(cust);
@@ -103,6 +104,7 @@ public abstract class Authentication {
 			 * 2. initialize employee
 			 */
 			Employee emp = new Employee(_firstName, _lastName, _gender, _phoneNumber, false);
+			emp.initializeLoginInfo(_username, _password);
 			emp.initializeUser();
 			Storage.users.get("Employees").add(emp);
 		}

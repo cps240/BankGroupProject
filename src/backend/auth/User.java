@@ -40,7 +40,7 @@ public abstract class User implements JSONMappable {
 	public User(String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber){
 		
 		this.username = _username;
-		this.password = new Password(_password);
+		this.password = new Password(_password, true);
 		this.firstName = _firstName;
 		this.lastName = _lastName;
 		this.gender = _gender;
@@ -63,6 +63,13 @@ public abstract class User implements JSONMappable {
 		} else {
 			this.userId = Storage.nextUserId;
 			Storage.nextUserId ++;
+		}
+	}
+	
+	public void initializeLoginInfo(String _username, String _password) {
+		if (this.username == null) {
+			this.username = _username;
+			this.password = new Password(_password);
 		}
 	}
 	

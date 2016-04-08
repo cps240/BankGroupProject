@@ -3,6 +3,7 @@ package utils.jsonConversion;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +43,8 @@ public final class JSONClassMapping {
 				toReturn = jsonArrayToArray((JSONArray) jsonVal);
 			} else if (jsonVal instanceof JSONObject) {
 				toReturn = jsonObjectToObject((JSONObject) jsonVal);
+			} else {
+				toReturn = jsonVal;
 			}
 			return toReturn;
 		}
@@ -140,8 +143,7 @@ public final class JSONClassMapping {
 			if (o.getClass().equals(Long.class) && (Long) o < Integer.MAX_VALUE) {
 				retVal = (Integer) ((Long) o).intValue();
 			} else if (o instanceof String && ((String) o).contains("ENCRIPTED:")) {
-				String passwordValue = ((String) o).replace("ENCRIPTED:", "");
-				retVal = new Password(passwordValue, true);
+				retVal = ((String) o).replace("ENCRIPTED:", "");
 			} else {
 				retVal = o;
 			}
