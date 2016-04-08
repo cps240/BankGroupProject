@@ -26,13 +26,20 @@ public class ConsoleApp{
 		sth.readUsers();
 		sth.readAccountRelationships();
 
-//		Authentication.addUser(Employee.class, "ianmann56", "saline54", "Ian", "Kirkpatrick", "M", "(734) 352 - 9580");
+//		Authentication.addUser(Customer.class, "myusername", "haha67", "Jim", "Joe", "M", "(787) 333 - 4444");
 		
-		Employee e = (Employee) Authentication.getUser(5);
-		System.out.println(e.getPasswordAsEmployee(e, "saline54"));
-
-//		Authentication.addUser(Employee.class, "joe56joe", "hello_67", "John", "Jackson", "M", "(677) 456 - 8796");
+		Employee emp = (Employee) Authentication.getUser("ianmann56");
+		Customer cust = (Customer) Authentication.getUser("myusername");
 		
+		cust.addAccount(CheckingAccount.class, emp, "yyy");
+		
+//		Account acct = sth.getAccountOwner("000000003").;
+		
+//		Employee e = (Employee) Authentication.getUser(5);
+//		System.out.println(e.getPasswordAsEmployee(e, "saline54"));
+//
+////		Authentication.addUser(Employee.class, "joe56joe", "hello_67", "John", "Jackson", "M", "(677) 456 - 8796");
+//		
 		sth.printAccountRelationships();
 		sth.printUsers();
 		

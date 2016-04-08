@@ -3,30 +3,34 @@ Account
   - Savings
 User
   - Customer
-  - Worker
 Password protection
 
 Functionality
   - Customer Side
-    - list accounts
-    - transaction log
-    - Transfer
-    - Withdrawal
-    - deposit
-    - request account creation
-    - request account closure
-
-
-  - Workers side
-    - reports
-      - accounts
-      - transaction per day
-      -? approve account
-        - if so, automatically generate account based on request
-      - deactivate accounts
-
-  - Program side
-    -? warnings for low balances and other notifications
+    - list accounts			Mason
+    - transaction log		Tim
+    - Transfer				Nick
+    - Withdrawal			Nick
+    - deposit				Nick
+    - request account creation		Mason
+    
+    
+Frontend
+  - Login screen			Codey
+  	- add user				Mason
+  - account main page (display each account w/balance)		Nick
+  	- deposit					Codey
+  	- withdrawal				Tim
+  	- transfer					Codey
+    - add account				Ian
+  - transaction/detail page		Tim
+  
+  
+UML
+Account				
+  - Checkin			Codey
+  - Savings			Tim
+Customer			Mason
 
 store data in json files
 accounts will be folder systems
