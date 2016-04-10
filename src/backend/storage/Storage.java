@@ -267,7 +267,7 @@ public abstract class Storage {
 			//instantiate account by calling constructor
 			Account acct = (Account) constructor.newInstance(_owner);
 			acct.accountNumber = _acctId;
-			acct.overrideSetBalance((double) json.get("balance"));
+			acct.setBalance((double) json.get("balance"));
 			return acct;
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException
 				| InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

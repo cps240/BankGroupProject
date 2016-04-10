@@ -1,13 +1,13 @@
 {
 	"Customers": [
 		{
-			"4#java.lang.String#_firstName": "Jim",
+			"4#java.lang.String#_firstName": "Joe",
 			"6#java.lang.String#_gender": "M",
-			"2#java.lang.String#_username": "myusername",
-			"5#java.lang.String#_lastName": "Joe",
-			"7#java.lang.String#_phoneNumber": "(787) 333 - 4444",
+			"2#java.lang.String#_username": "hahaha",
+			"5#java.lang.String#_lastName": "John",
+			"7#java.lang.String#_phoneNumber": "jdldffsd",
 			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:*74348*37241!58275!57772!48279!67777",
+			"3#java.lang.String#_password": "ENCRIPTED:!46575!76286!71975!76572!16282!61978",
 			"1#java.lang.Integer#_userId": 7
 		}
 	],
@@ -25,12 +25,12 @@
 			"1#java.lang.Integer#_userId": 5
 		},
 		{
-			"4#java.lang.String#_firstName": "John",
+			"4#java.lang.String#_firstName": "ATM",
 			"6#java.lang.String#_gender": "M",
-			"2#java.lang.String#_username": "joe56joe",
-			"5#java.lang.String#_lastName": "Jackson",
+			"2#java.lang.String#_username": "atm_machine",
+			"5#java.lang.String#_lastName": "Machine",
 			"7#java.lang.String#_phoneNumber": "(677) 456 - 8796",
-			"8#java.lang.Boolean#_isATM": false,
+			"8#java.lang.Boolean#_isATM": true,
 			"type": "backend.auth.Employee",
 			"3#java.lang.String#_password": "ENCRIPTED:*54341*77243^14173!16287!15089!35081!36575!47779",
 			"1#java.lang.Integer#_userId": 6

@@ -1,5 +1,6 @@
 package backend.auth;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -79,8 +80,9 @@ public abstract class Authentication {
 	 * @param _phoneNumber
 	 * @throws UserAlreadyStoredException 
 	 * @throws UserNotFoundException 
+	 * @throws IOException 
 	 */
-	public static void addUser(Class<? extends User> _type, String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) throws UserAlreadyStoredException, UserNotFoundException {
+	public static void addUser(Class<? extends User> _type, String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) throws UserAlreadyStoredException, UserNotFoundException, IOException {
 		if (_type.equals(Customer.class)) {
 			/*
 			 * create customer with the parameters

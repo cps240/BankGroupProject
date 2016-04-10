@@ -25,15 +25,22 @@ public class ConsoleApp{
 		
 		sth.readUsers();
 		sth.readAccountRelationships();
+//		Authentication.addUser(Customer.class, "hahaha", "joejoe", "Joe", "John", "M", "jdldffsd");
+		Customer c = (Customer) Authentication.getUser("hahaha");
+		
+//		c.addAccount(CheckingAccount.class);
+//		c.addAccount(SavingsAccount.class);
+		
+		Account savingsAcct = c.getAccount(SavingsAccount.class);
+		
+		Account checkingAcct = c.getAccount(CheckingAccount.class);
+		
+		System.out.println(checkingAcct.toString());
 
-//		Authentication.addUser(Customer.class, "myusername", "haha67", "Jim", "Joe", "M", "(787) 333 - 4444");
+//		checkingAcct.doDeposit(600);
+//		savingsAcct.doDeposit(100);
 		
-		Employee emp = (Employee) Authentication.getUser("ianmann56");
-		Customer cust = (Customer) Authentication.getUser("myusername");
-		
-		cust.addAccount(CheckingAccount.class, emp, "yyy");
-		
-//		Account acct = sth.getAccountOwner("000000003").;
+//		Account.doTransfer(checkingAcct, savingsAcct, 256.87);
 		
 //		Employee e = (Employee) Authentication.getUser(5);
 //		System.out.println(e.getPasswordAsEmployee(e, "saline54"));
