@@ -28,7 +28,18 @@ public class ConsoleApp{
 
 //		Authentication.addUser(Customer.class, "hahaha", "joejoe", "Joe", "John", "M", "jdldffsd");
 		Customer c = (Customer) Authentication.getUser("hahaha");
-		System.out.println(c.getPassword());
+		
+//		c.addAccount(CheckingAccount.class);
+//		c.addAccount(SavingsAccount.class);
+		
+//		Account savingsAcct = c.getAccount(SavingsAccount.class);
+//		
+//		Account checkingAcct = c.getAccount(CheckingAccount.class);
+
+//		checkingAcct.doDeposit(600);
+//		savingsAcct.doDeposit(100);
+		
+//		Account.doTransfer(checkingAcct, savingsAcct, 256.87);
 		
 		sth.printAccountRelationships();
 		sth.printUsers();

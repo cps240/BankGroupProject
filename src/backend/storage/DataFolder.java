@@ -125,8 +125,9 @@ public class DataFolder {
 	 * @param _customer
 	 * @throws UserNotFoundException
 	 * @throws UserAlreadyStoredException
+	 * @throws IOException 
 	 */
-	public void addCustomerFolder(Customer _customer) throws UserNotFoundException, UserAlreadyStoredException {
+	public void addCustomerFolder(Customer _customer) throws UserNotFoundException, UserAlreadyStoredException, IOException {
 		if (_customer.userId == null) {
 			throw new UserNotFoundException();
 		} else {
@@ -139,6 +140,19 @@ public class DataFolder {
 				//create folders to hold accounts.
 				File checkingFolder = new File(_customer.pathToCustomerFolder() + "checkingaccounts/");
 				File savingsFolder = new File(_customer.pathToCustomerFolder() + "savingsaccounts/");
+				boolean checkingFolderCreated = checkingFolder.mkdir();
+				boolean savingsFolderCreated = savingsFolder.mkdir();
+				if (!checkingFolderCreated) {
+					if (savingsFolderCreated) {
+						savingsFolder.delete();
+					}
+					throw new IOException("Checking account folder for customer: " + _customer.username + " could not be created.");
+				} else if (!savingsFolderCreated) {
+					if (checkingFolderCreated) {
+						checkingFolder.delete();
+					}
+					throw new IOException("Savings account folder for customer: " + _customer.username + " could not be created.");
+				}
 				//create file with path to accounts
 				try {
 					File acctFilePath = new File(_customer.pathToAccountsPathStorage());

@@ -62,6 +62,9 @@ public class StorageHandler {
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
@@ -198,7 +201,7 @@ public class StorageHandler {
 		return null;
 	}
 	
-	public void printAccountsForCustomer(Customer _customer) throws AccountNotFoundException, ParseException, AccountAlreadyStoredException {
+	public void printAccountsForCustomer(Customer _customer) throws AccountNotFoundException, ParseException, AccountAlreadyStoredException, FileNotFoundException {
 		try {
 			/*
 			 * Refresh the accounts_paths file to an empty json file
@@ -245,15 +248,23 @@ public class StorageHandler {
 	 * @throws ParseException 
 	 * @throws AccountAlreadyStoredException 
 	 */
-	public void addAccountToPaths(Account _account) throws ParseException, AccountAlreadyStoredException {
-		Scanner scnr = new Scanner(_account.getOwner().pathToAccountsPathStorage()).useDelimiter("\\Z");
-		JSONObject json = new JSONObject();
-		if (!json.containsKey(_account.keyForAccountsPathFile())) {
-			json.put(_account.keyForAccountsPathFile(), _account.jsonPathValue());
-		} else {
-			throw new AccountAlreadyStoredException(_account.getClass());
+	public void addAccountToPaths(Account _account) throws ParseException, AccountAlreadyStoredException, FileNotFoundException {
+		Scanner scnr = null;
+		JSONObject json = null;
+		try {
+			scnr = new Scanner(new File(_account.getOwner().pathToAccountsPathStorage())).useDelimiter("\\Z");
+			String jsonAlreadyInFile = scnr.next();
+			json = (JSONObject) new JSONParser().parse(jsonAlreadyInFile);
+			if (!json.containsKey(_account.keyForAccountsPathFile())) {
+				json.put(_account.keyForAccountsPathFile(), _account.jsonPathValue());
+			} else {
+				throw new AccountAlreadyStoredException(_account.getClass());
+			}
+			scnr.close();
+		} catch (Exception e) {
+			scnr.close();
+			throw e;
 		}
-		scnr.close();
 		
 		try {
 			PrintWriter pw = new PrintWriter(_account.getOwner().pathToAccountsPathStorage());

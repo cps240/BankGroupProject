@@ -73,6 +73,9 @@ public abstract class Account {
 		} else {
 			throw new AccountAlreadyStoredException(this);
 		}
+		if (this.balance == null) {
+			this.balance = 0.0;
+		}
 	}
 	
 	public String getAccountNumber() {
@@ -149,5 +152,9 @@ public abstract class Account {
 		} else {
 			return null;
 		}
+	}
+	
+	public String toString() {
+		return this.getOwner().fullName() + "'s " + this.getClass().getSimpleName().split("Account")[0] + " Account with balance: $" + this.balance;
 	}
 }
