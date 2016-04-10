@@ -18,7 +18,7 @@ public abstract class Account {
 	protected Customer owner;
 	public String accountNumber;
 	
-	public META META = new META();
+	public META META;
 	
 	/**
 	 * will contain behavioral attributes such as minimum balance allowed and other
