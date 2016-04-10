@@ -122,4 +122,8 @@ public abstract class User implements JSONMappable {
 	public boolean isLoggedIn() {
 		return this.isLoggedIn;
 	}
+	
+	public String fullName() {
+		return this.firstName + " " + this.lastName;
+	}
 }
