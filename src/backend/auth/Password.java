@@ -22,7 +22,7 @@ public class Password {
 	
 	private String toDecriptedString() {
 		this.decipherNumber();
-		String toReturn = "DECRIPTED: " + this.value;
+		String toReturn = "DECRIPTED:" + this.value;
 		this.encriptNumber();
 		return toReturn;
 	}
@@ -44,7 +44,7 @@ public class Password {
 	}
 	
 	public boolean matches(String _pass) {
-		if (_pass.equals(this.toDecriptedString().split("DECRIPTED: ")[1])) {
+		if (_pass.equals(this.toDecriptedString().split("DECRIPTED:")[1])) {
 			return true;
 		} else {
 			return false;
