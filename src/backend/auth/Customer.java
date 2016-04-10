@@ -40,21 +40,17 @@ public class Customer extends User {
 	 * @throws UserNotFoundException if this user is not a saved user. more specifically, if the userId is null.
 	 * @throws PasswordMissmatchException 
 	 */
-	public void addAccount(Class<? extends Account> _acctType, Employee _supervisor, String _employeePassword) throws AccountAlreadyStoredException, UserNotFoundException, PasswordMissmatchException {
-		if (_supervisor.checkPassword(_employeePassword)) {
-			if (this.accounts.containsKey(_acctType)) {
-				throw new AccountAlreadyStoredException(this.accounts.get(_acctType));
-			} else {
-				//initialize the account but with an empty balance.
-				if (_acctType.equals(CheckingAccount.class)) {
-					this.addCheckingAccount();
-				} else if (_acctType.equals(SavingsAccount.class)) {
-					this.addSavingsAccount();
-				}
-				this.accounts.get(_acctType).initializeAccount();
-			}
+	public void addAccount(Class<? extends Account> _acctType) throws AccountAlreadyStoredException, UserNotFoundException {
+		if (this.accounts.containsKey(_acctType)) {
+			throw new AccountAlreadyStoredException(this.accounts.get(_acctType));
 		} else {
-			throw new PasswordMissmatchException(_supervisor.username, _employeePassword);
+			//initialize the account but with an empty balance.
+			if (_acctType.equals(CheckingAccount.class)) {
+				this.addCheckingAccount();
+			} else if (_acctType.equals(SavingsAccount.class)) {
+				this.addSavingsAccount();
+			}
+			this.accounts.get(_acctType).initializeAccount();
 		}
 	}
 	

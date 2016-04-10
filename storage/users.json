@@ -1,7 +1,17 @@
 {
 	"Customers": [
+		{
+			"4#java.lang.String#_firstName": "Joe",
+			"6#java.lang.String#_gender": "M",
+			"2#java.lang.String#_username": "hahaha",
+			"5#java.lang.String#_lastName": "John",
+			"7#java.lang.String#_phoneNumber": "jdldffsd",
+			"type": "backend.auth.Customer",
+			"3#java.lang.String#_password": "ENCRIPTED:!56573!16286!91974!36578!16289!31979",
+			"1#java.lang.Integer#_userId": 7
+		}
 	],
-	"nextUserId": "7",
+	"nextUserId": "8",
 	"Employees": [
 		{
 			"4#java.lang.String#_firstName": "Ian",

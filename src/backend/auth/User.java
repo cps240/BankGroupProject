@@ -107,12 +107,8 @@ public abstract class User implements JSONMappable {
 		}
 	}
 	
-	public String getPasswordAsEmployee(Employee _accessor, String _employeesPassword) throws PasswordMissmatchException {
-		if (_accessor.checkPassword(_employeesPassword)) {
-			return this.password.override();
-		} else {
-			throw new PasswordMissmatchException(_accessor.getUsername(), _employeesPassword);
-		}
+	public String getPassword() {
+		return this.password.override();
 	}
 	
 	public void login(String _password) throws PasswordMissmatchException {

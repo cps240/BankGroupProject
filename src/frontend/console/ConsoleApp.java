@@ -26,8 +26,9 @@ public class ConsoleApp{
 		sth.readUsers();
 		sth.readAccountRelationships();
 
-		Authentication.addUser(Customer.class, "hahaha", "joejoe", "Joe", "John", "M", "jdldffsd");
+//		Authentication.addUser(Customer.class, "hahaha", "joejoe", "Joe", "John", "M", "jdldffsd");
 		Customer c = (Customer) Authentication.getUser("hahaha");
+		System.out.println(c.getPassword());
 		
 		sth.printAccountRelationships();
 		sth.printUsers();
