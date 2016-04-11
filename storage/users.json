@@ -9,31 +9,17 @@
 			"type": "backend.auth.Customer",
 			"3#java.lang.String#_password": "ENCRIPTED:!46575!76286!71975!76572!16282!61978",
 			"1#java.lang.Integer#_userId": 7
-		}
-	],
-	"nextUserId": "8",
-	"Employees": [
+		},
 		{
 			"4#java.lang.String#_firstName": "Ian",
 			"6#java.lang.String#_gender": "M",
 			"2#java.lang.String#_username": "ianmann56",
 			"5#java.lang.String#_lastName": "Kirkpatrick",
-			"7#java.lang.String#_phoneNumber": "(734) 352 - 9580",
-			"8#java.lang.Boolean#_isATM": false,
-			"type": "backend.auth.Employee",
-			"3#java.lang.String#_password": "ENCRIPTED:*73144*20245!66578!39184!54878!15086!48273!94588",
-			"1#java.lang.Integer#_userId": 5
-		},
-		{
-			"4#java.lang.String#_firstName": "ATM",
-			"6#java.lang.String#_gender": "M",
-			"2#java.lang.String#_username": "atm_machine",
-			"5#java.lang.String#_lastName": "Machine",
-			"7#java.lang.String#_phoneNumber": "(677) 456 - 8796",
-			"8#java.lang.Boolean#_isATM": true,
-			"type": "backend.auth.Employee",
-			"3#java.lang.String#_password": "ENCRIPTED:*54341*77243^14173!16287!15089!35081!36575!47779",
-			"1#java.lang.Integer#_userId": 6
+			"7#java.lang.String#_phoneNumber": "jdldffsd",
+			"type": "backend.auth.Customer",
+			"3#java.lang.String#_password": "ENCRIPTED:*63149*90241!56571!19189!84875!15082!38273!34582",
+			"1#java.lang.Integer#_userId": 8
 		}
-	]
+	],
+	"nextUserId": "9"
 }

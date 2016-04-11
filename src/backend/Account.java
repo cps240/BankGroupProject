@@ -4,7 +4,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import backend.auth.Customer;
-import backend.auth.User;
 import backend.auth.errors.PasswordMissmatchException;
 import backend.auth.errors.UserNotAuthenticatedException;
 import backend.auth.errors.UserNotFoundException;
@@ -18,7 +17,7 @@ public abstract class Account {
 	protected Customer owner;
 	public String accountNumber;
 	
-	public META META = new META();
+	public META META;
 	
 	/**
 	 * will contain behavioral attributes such as minimum balance allowed and other

@@ -19,7 +19,6 @@ import backend.Account;
 import backend.Settings;
 import backend.auth.Authentication;
 import backend.auth.Customer;
-import backend.auth.User;
 import backend.auth.errors.UserNotFoundException;
 import backend.errors.AccountAlreadyStoredException;
 import utils.jsonConversion.JSONFormat;
@@ -40,7 +39,7 @@ public class StorageHandler {
 	public void printUsers() {
 		PrintWriter pw = this.folder.getPrintWriter(DataFolder.USERS_STORAGE);
 		
-		String jsonOfUsers = JSONFormat.formatJSON(Storage.usersToJsonObject(), 0);
+		String jsonOfUsers = JSONFormat.formatJSON(Storage.usersToJsonArray(), 0);
 		
 		pw.println(jsonOfUsers);
 		
@@ -49,23 +48,21 @@ public class StorageHandler {
 		/*
 		 * print the accounts for this user.
 		 */
-		for (User user : Storage.users.get("Customers")) {
-			if (user instanceof Customer) {
-				try {
-					this.printAccountsForCustomer(((Customer) user));
-				} catch (AccountAlreadyStoredException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (AccountNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		for (Customer user : Storage.users) {
+			try {
+				this.printAccountsForCustomer(((Customer) user));
+			} catch (AccountAlreadyStoredException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (AccountNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -75,7 +72,7 @@ public class StorageHandler {
 			Scanner scnr = this.folder.getScanner(DataFolder.USERS_STORAGE).useDelimiter("\\Z"); // "\\Z" reads entire file as one string
 			
 			String json = scnr.next();
-			HashMap<String, ArrayList<User>> users = Storage.getUsersFromJson(json);
+			ArrayList<Customer> users = Storage.getUsersFromJson(json);
 			
 			Storage.users = users;
 			scnr.close();
@@ -83,14 +80,12 @@ public class StorageHandler {
 			/*
 			 * Read the accounts for this user.
 			 */
-			for (User user : Storage.users.get("Customers")) {
-				if (user instanceof Customer) {
-					try {
-						this.readAccountsForCustomer(((Customer) user));
-					} catch (AccountAlreadyStoredException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			for (Customer user : Storage.users) {
+				try {
+					this.readAccountsForCustomer(user);
+				} catch (AccountAlreadyStoredException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		} else {
@@ -98,7 +93,7 @@ public class StorageHandler {
 		}
 	}
 	
-	public User getAccountOwner(Account _account) {
+	public Customer getAccountOwner(Account _account) {
 		Integer userId = Storage.accountRelationships.get(_account.getAccountNumber());
 		try {
 			return Authentication.getUser(userId);
@@ -109,7 +104,7 @@ public class StorageHandler {
 		}
 	}
 	
-	public User getAccountOwner(String _accountId) {
+	public Customer getAccountOwner(String _accountId) {
 		Integer userId = Storage.accountRelationships.get(_accountId);
 		try {
 			return Authentication.getUser(userId);

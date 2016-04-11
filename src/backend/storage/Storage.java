@@ -18,7 +18,6 @@ import backend.SavingsAccount;
 import backend.Settings;
 import backend.auth.Authentication;
 import backend.auth.Customer;
-import backend.auth.User;
 import backend.auth.errors.UserNotFoundException;
 import utils.jsonConversion.JSONClassMapping;
 import utils.jsonConversion.JSONFormat;
@@ -34,16 +33,11 @@ import utils.jsonConversion.ObjectParser;
 public abstract class Storage {
 
 	/**
-	 * This contains every user in backend.storage. We will read all users from their accounts and store them in here. It contains two keys:
-	 * <br><br>
-	 * * Employee<br>
-	 * --- a list of employees<br>
-	 * * Customer<br>
-	 * --- a list of customers
+	 * This contains every user in backend.storage. We will read all users from their accounts and store them in here.
 	 * <br><br>
 	 * These users are not necessarily logged in.
 	 */
-	public static HashMap<String, ArrayList<User>> users = new HashMap<String, ArrayList<User>>();
+	public static ArrayList<Customer> users = new ArrayList<Customer>();
 	
 	/**
 	 * Next time a user is initialized and his ID is set, use this for his id.
@@ -80,25 +74,22 @@ public abstract class Storage {
 	 * This method will put all the users into a json string with employees and customers seperated. this json will be printed to a file and later parsed into the above hashmap called users using {@code getUsersFromJson(json)} where json is the string read in by the file.
 	 * @return
 	 */
-	public static JSONObject usersToJsonObject() {
+	public static JSONObject usersToJsonArray() {
 		JSONObject usersJson = new JSONObject();
 		
-		for (Entry<String, ArrayList<User>> userType : Storage.users.entrySet()) {
+		usersJson.put("Customers", new JSONArray());
+		
+		for (Customer customer : Storage.users) {
 			
-			//initiate the key for this current type. This could be Employee or Customer
-			usersJson.put(userType.getKey(), new JSONArray());
-			
-			for (User user : userType.getValue()) {
-				Object userAsJsonObject = null;
-				try {
-					userAsJsonObject = ObjectParser.anyObjectToJSON(user);
-				} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
-						| ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					throw new JsonParseError(e.getMessage());
-				}
-				((JSONArray) usersJson.get(userType.getKey())).add(userAsJsonObject);
+			Object userAsJsonObject = null;
+			try {
+				userAsJsonObject = ObjectParser.anyObjectToJSON(customer);
+			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
+					| ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				throw new JsonParseError(e.getMessage());
 			}
+			((ArrayList) usersJson.get("Customers")).add(userAsJsonObject);
 		}
 		
 		usersJson.put("nextUserId", String.valueOf(Storage.nextUserId));
@@ -112,8 +103,8 @@ public abstract class Storage {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static HashMap<String, ArrayList<User>> getUsersFromJson(String json) throws ParseException {
-		HashMap<String, ArrayList<User>> users = new HashMap<String, ArrayList<User>>();
+	public static ArrayList<Customer> getUsersFromJson(String json) throws ParseException {
+		ArrayList<Customer> users = new ArrayList<Customer>();
 		
 		JSONObject jsonOfUsers = (JSONObject) new JSONParser().parse(json);
 		
@@ -123,24 +114,17 @@ public abstract class Storage {
 			} else {
 				Entry<String, JSONArray> userType = (Entry<String, JSONArray>) userTypeObject;
 				
-				//initiiate the key for this current type. This could be Emplyee or Customer
-				if (!users.containsKey(userType.getKey())) {
-					users.put(userType.getKey(), new ArrayList<User>());
-				}
-				
 				for (Object userAsObject : userType.getValue()) {
 					JSONObject userAsJsonObject = (JSONObject) userAsObject;
 					
-					User parsedUser;
+					Customer parsedUser;
 					try {
-						parsedUser = (User) JSONClassMapping.jsonAnyToObject(userAsJsonObject);
-						users.get(userType.getKey()).add(parsedUser);
+						parsedUser = (Customer) JSONClassMapping.jsonAnyToObject(userAsJsonObject);
+						users.add(parsedUser);
 						
 						//add accountsPath file to storage folder keys.
-						if (parsedUser instanceof Customer) {
-							String accountsKey = ((Customer) parsedUser).getAccountsPathFileKey();
-							Settings.storage.folder.addFile(accountsKey, new File(((Customer) parsedUser).pathToAccountsPathStorage()));
-						}
+						String accountsKey = ((Customer) parsedUser).getAccountsPathFileKey();
+						Settings.storage.folder.addFile(accountsKey, new File(((Customer) parsedUser).pathToAccountsPathStorage()));
 					} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
 							| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 						// TODO Auto-generated catch block
