@@ -1,9 +1,6 @@
 package backend;
 
 import backend.auth.Customer;
-import backend.auth.Employee;
-import backend.auth.errors.PasswordMissmatchException;
-import backend.auth.errors.UserNotAuthenticatedException;
 import backend.auth.errors.UserNotFoundException;
 import backend.errors.LowAccountBalanceException;
 

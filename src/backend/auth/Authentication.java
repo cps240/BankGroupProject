@@ -22,14 +22,12 @@ public abstract class Authentication {
 	 * This method is kind of self explanitory. It will return the user that is currently logged in.
 	 * @return
 	 */
-	public static User getLoggedInUser() {
-		User loggedIn = null;
+	public static Customer getLoggedInUser() {
+		Customer loggedIn = null;
 		
-		for (Entry<String, ArrayList<User>> userType : Storage.users.entrySet()) {
-			for (User user : userType.getValue()) {
-				if (user.isLoggedIn()) {
-					loggedIn = user;
-				}
+		for (Customer customer : Storage.users) {
+			if (customer.isLoggedIn()) {
+				loggedIn = customer;
 			}
 		}
 		
@@ -37,33 +35,27 @@ public abstract class Authentication {
 	}
 	
 	public static boolean userExists(String _username) {
-		for (Entry<String, ArrayList<User>> userType : Storage.users.entrySet()) {
-			for (User user : userType.getValue()) {
-				if (user.getUsername().equals(_username)) {
-					return true;
-				}
+		for (Customer customer : Storage.users) {
+			if (customer.getUsername().equals(_username)) {
+				return true;
 			}
 		}
 		return false;
 	}
 
-	public static User getUser(Integer _userId) throws UserNotFoundException {
-		for (Entry<String, ArrayList<User>> userType : Storage.users.entrySet()) {
-			for (User user : userType.getValue()) {
-				if (user.userId.equals(_userId)) {
-					return user;
-				}
+	public static Customer getUser(Integer _userId) throws UserNotFoundException {
+		for (Customer customer : Storage.users) {
+			if (customer.userId.equals(_userId)) {
+				return customer;
 			}
 		}
 		throw new UserNotFoundException(_userId);
 	}
 	
-	public static User getUser(String _username) throws UserNotFoundException {
-		for (Entry<String, ArrayList<User>> userType : Storage.users.entrySet()) {
-			for (User user : userType.getValue()) {
-				if (user.getUsername().equals(_username)) {
-					return user;
-				}
+	public static Customer getUser(String _username) throws UserNotFoundException {
+		for (Customer customer : Storage.users) {
+			if (customer.getUsername().equals(_username)) {
+				return customer;
 			}
 		}
 		throw new UserNotFoundException(_username);
@@ -82,34 +74,20 @@ public abstract class Authentication {
 	 * @throws UserNotFoundException 
 	 * @throws IOException 
 	 */
-	public static void addUser(Class<? extends User> _type, String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) throws UserAlreadyStoredException, UserNotFoundException, IOException {
-		if (_type.equals(Customer.class)) {
-			/*
-			 * create customer with the parameters
-			 * 
-			 * steps to take:
-			 * 1. create user
-			 * 2. initialize customer with id
-			 * 3. create folder for user
-			 */
-			Customer cust = new Customer(_firstName, _lastName, _gender, _phoneNumber);
-			cust.initializeLoginInfo(_username, _password);
-			cust.initializeUser();
-			Settings.storage.folder.addCustomerFolder(cust);
-			Storage.users.get("Customers").add(cust);
-		} else {
-			/*
-			 * create employee with parameters
-			 * 
-			 * steps to take
-			 * 1. create employee
-			 * 2. initialize employee
-			 */
-			Employee emp = new Employee(_firstName, _lastName, _gender, _phoneNumber, false);
-			emp.initializeLoginInfo(_username, _password);
-			emp.initializeUser();
-			Storage.users.get("Employees").add(emp);
-		}
+	public static void addUser(String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) throws UserAlreadyStoredException, UserNotFoundException, IOException {
+		/*
+		 * create customer with the parameters
+		 * 
+		 * steps to take:
+		 * 1. create user
+		 * 2. initialize customer with id
+		 * 3. create folder for user
+		 */
+		Customer cust = new Customer(_firstName, _lastName, _gender, _phoneNumber);
+		cust.initializeLoginInfo(_username, _password);
+		cust.initializeUser();
+		Settings.storage.folder.addCustomerFolder(cust);
+		Storage.users.add(cust);
 	}
 	
 	/**
@@ -119,7 +97,7 @@ public abstract class Authentication {
 	 * @throws PasswordMissmatchException 
 	 */
 	public boolean attemptLogin(String _username, String _password) throws UserNotFoundException, PasswordMissmatchException {
-		User toLogin = getUser(_username);
+		Customer toLogin = getUser(_username);
 		
 		toLogin.login(_password);
 		

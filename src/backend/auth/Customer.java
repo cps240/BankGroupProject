@@ -8,24 +8,128 @@ import backend.Account;
 import backend.CheckingAccount;
 import backend.SavingsAccount;
 import backend.Settings;
+import backend.auth.errors.PasswordAlreadySetError;
 import backend.auth.errors.PasswordMissmatchException;
+import backend.auth.errors.UserAlreadyStoredException;
 import backend.auth.errors.UserNotFoundException;
 import backend.errors.AccountAlreadyStoredException;
+import backend.storage.Storage;
+import utils.jsonConversion.JSONMappable;
 
-public class Customer extends User {
+public class Customer implements JSONMappable{
 	
-	private HashMap<Class<? extends Account>, Account> accounts = new HashMap<Class<? extends Account>, Account>();
+	public static String GENDER_MALE = "M";
+	public static String GENDER_FEMALE = "F";
+	
+	public String username;
+	public Password password;
+	
+	public Integer userId;
+	public String firstName;
+	public String lastName;
+	public String gender;
+	public String phoneNumber;
+	
+	private boolean isLoggedIn = false;
 
 	public Customer(String _firstName, String _lastName, String _gender, String _phoneNumber) {
-		super(_firstName, _lastName, _gender, _phoneNumber);
-		// TODO Auto-generated constructor stub
+		this.firstName = _firstName;
+		this.lastName = _lastName;
+		this.gender = _gender;
+		this.phoneNumber = _phoneNumber;
 	}
 	
 	public Customer(Integer _userId, String _username, String _password, String _firstName, String _lastName, String _gender, String _phoneNumber) {
-		super(_username, _password, _firstName, _lastName, _gender, _phoneNumber);
-		// TODO Auto-generated constructor stub
+		this.username = _username;
+		this.password = new Password(_password, true);
+		this.firstName = _firstName;
+		this.lastName = _lastName;
+		this.gender = _gender;
+		this.phoneNumber = _phoneNumber;
 		this.userId = _userId;
 	}
+	
+	public void setUsername(String _newUsername, String _guessPassword) throws PasswordMissmatchException {
+		if (this.checkPassword(_guessPassword)) {
+			this.username = _newUsername;
+		} else {
+			throw new PasswordMissmatchException(this.username, _guessPassword);
+		}
+	}
+	
+	public void initializeUser() throws UserAlreadyStoredException {
+		if (this.username != null && Authentication.userExists(this.username)) {
+			throw new UserAlreadyStoredException(this.username);
+		} else if (this.userId != null) {
+			throw new UserAlreadyStoredException(this.userId);
+		} else {
+			this.userId = Storage.nextUserId;
+			Storage.nextUserId ++;
+		}
+	}
+	
+	public void initializeLoginInfo(String _username, String _password) {
+		if (this.username == null) {
+			this.username = _username;
+			this.password = new Password(_password);
+		}
+	}
+	
+	public String getUsername() {
+		return this.username;
+	}
+	
+	/**
+	 * Only use this to set the very first password (if the accounts password atm is null). Once the password is set, use:
+	 * <br><br>
+	 * * {@code setPassword(newPass, oldPass)}
+	 * @param _password
+	 */
+	public void initializePassword(String _password) {
+		if(this.password == null) {
+			this.password = new Password(_password);
+		} else {
+			throw new PasswordAlreadySetError(this.username);
+		}
+	}
+	
+	public void setPassword(String _password, String _oldPassword) throws PasswordMissmatchException {
+		if (this.checkPassword(_oldPassword)) {
+			this.password = new Password(_password);
+		} else {
+			throw new PasswordMissmatchException(this.username, _oldPassword);
+		}
+	}
+	
+	public boolean checkPassword(String _guessPassword) {
+		if (this.password.matches(_guessPassword)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String getPassword() {
+		return this.password.override();
+	}
+	
+	public void login(String _password) throws PasswordMissmatchException {
+		if (this.password.matches(_password)) {
+			this.isLoggedIn = true;
+		} else {
+			throw new PasswordMissmatchException(this.username, _password);
+		}
+	}
+	
+	public boolean isLoggedIn() {
+		return this.isLoggedIn;
+	}
+	
+	public String fullName() {
+		return this.firstName + " " + this.lastName;
+	}
+	
+	private HashMap<Class<? extends Account>, Account> accounts = new HashMap<Class<? extends Account>, Account>();
 	
 	public Account getAccount(Class<? extends Account> _acctType) {
 		return this.accounts.get(_acctType);
