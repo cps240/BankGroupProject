@@ -4,7 +4,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import backend.auth.Customer;
-import backend.auth.User;
 import backend.auth.errors.PasswordMissmatchException;
 import backend.auth.errors.UserNotAuthenticatedException;
 import backend.auth.errors.UserNotFoundException;

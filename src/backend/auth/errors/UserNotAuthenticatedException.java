@@ -1,6 +1,6 @@
 package backend.auth.errors;
 
-import backend.auth.User;
+import backend.auth.Customer;
 
 public class UserNotAuthenticatedException extends Exception {
 	
@@ -19,7 +19,7 @@ public class UserNotAuthenticatedException extends Exception {
 	
 	public String message;
 
-	public UserNotAuthenticatedException(User _customer) {
+	public UserNotAuthenticatedException(Customer _customer) {
 		super("Sorry, user with username: \"" + _customer.getUsername() + "\"" + " does not have access to this account.");
 		this.message = WRONG_CUSTOMER;
 	}
