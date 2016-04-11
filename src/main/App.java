@@ -1,13 +1,27 @@
 package main;
 
+import backend.Settings;
+import backend.storage.StorageHandler;
+import frontend.BasePane;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws Exception{
 		//Only use this for gui!
+		Settings.storage.readUsers();
+		Settings.storage.readAccountRelationships();
+		
+		BasePane pane = new BasePane();
+		Scene mainScene = new Scene(pane);
+		
+		primaryStage.setScene(mainScene);
+		primaryStage.show();
+		
+		primaryStage.setOnCloseRequest(e -> Settings.storage.printData());
 	}
 
 	public static void main(String[] args) {

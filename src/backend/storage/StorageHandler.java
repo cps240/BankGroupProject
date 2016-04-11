@@ -270,5 +270,10 @@ public class StorageHandler {
 			e.printStackTrace();
 		}
 	}
+	
+	public void printData() {
+		this.printAccountRelationships();
+		this.printUsers();
+	}
 
 }

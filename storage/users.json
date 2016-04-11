@@ -19,7 +19,17 @@
 			"type": "backend.auth.Customer",
 			"3#java.lang.String#_password": "ENCRIPTED:*63149*90241!56571!19189!84875!15082!38273!34582",
 			"1#java.lang.Integer#_userId": 8
+		},
+		{
+			"4#java.lang.String#_firstName": "Ian",
+			"6#java.lang.String#_gender": "Male",
+			"2#java.lang.String#_username": "ianmann99",
+			"5#java.lang.String#_lastName": "Kirkpatrick",
+			"7#java.lang.String#_phoneNumber": "flsjflsa",
+			"type": "backend.auth.Customer",
+			"3#java.lang.String#_password": "ENCRIPTED:*13141*30249!86579!59184!14874!55082!28273!14581",
+			"1#java.lang.Integer#_userId": 9
 		}
 	],
-	"nextUserId": "9"
+	"nextUserId": "10"
 }
