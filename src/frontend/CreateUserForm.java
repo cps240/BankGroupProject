@@ -1,4 +1,4 @@
-package frontend.createUser;
+package frontend;
 
 import java.io.IOException;
 

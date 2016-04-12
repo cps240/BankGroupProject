@@ -1,6 +1,5 @@
 package frontend;
 
-import frontend.createUser.CreateUserForm;
 import javafx.scene.layout.BorderPane;
 
 /**
