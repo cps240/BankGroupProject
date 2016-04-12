@@ -1,29 +1,23 @@
 package frontend.createUser;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import backend.auth.Authentication;
 import backend.auth.errors.UserAlreadyStoredException;
 import backend.auth.errors.UserNotFoundException;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
 public class CreateUserForm extends GridPane {
@@ -54,6 +48,8 @@ public class CreateUserForm extends GridPane {
 		
 		this.warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
 		this.warningContainer.setVisible(false);
+		
+		this.warning.setAlignment(Pos.CENTER);
 	}
 	
 	public void setFirstNameAttributes() {
@@ -107,14 +103,11 @@ public class CreateUserForm extends GridPane {
 					this.clearForm();
 					this.alertSaved(firstName + " " + lastName);
 				} catch (UserAlreadyStoredException e) {
-					// TODO Auto-generated catch block
 					warning.setText("A user with this info already exists.");
 					warningContainer.setVisible(true);
 				} catch (UserNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
@@ -206,6 +199,7 @@ public class CreateUserForm extends GridPane {
 
 		this.add(this.submitContainer, 1, 4); //this will contain the submit button.
 		
+		this.setBaseAttributes();
 		this.setWarningAttributes();
 		this.setLastNameAttributes();
 		this.setFirstNameAttributes();
@@ -214,5 +208,11 @@ public class CreateUserForm extends GridPane {
 		this.setUsernameAttributes();
 		this.setPasswordAttributes();
 		this.setSubmitAttributes();
+	}
+	
+	public void setBaseAttributes() {
+		this.setPadding(new Insets(15));
+		this.setHgap(10);
+		this.setVgap(10);
 	}
 }
