@@ -17,12 +17,12 @@ Functionality
     
 Frontend
   - Login screen			Codey
-  	- add user				Mason
+  	- add user				Ian
   - account main page (display each account w/balance)		Nick
   	- deposit					Codey
   	- withdrawal				Tim
   	- transfer					Codey
-    - add account				Ian
+    - add account				Mason
   - transaction/detail page		Tim
   
   
