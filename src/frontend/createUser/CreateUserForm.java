@@ -118,6 +118,7 @@ public class CreateUserForm extends GridPane {
 					e.printStackTrace();
 				}
 			} else {
+				this.alertToWarning();
 				warning.setText("Please complete the form below.");
 				warningContainer.setVisible(true);
 			}
@@ -133,9 +134,13 @@ public class CreateUserForm extends GridPane {
 			ft.play();
 		}
 		
-		public void clearForm() {
-			warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
+		public void alertToWarning() {
 			warningContainer.setVisible(false);
+			warningContainer.setOpacity(1.0);
+			warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
+		}
+		
+		public void clearForm() {
 			usernameField.setText("");
 			passwordField.setText("");
 			firstNameField.setText("");
