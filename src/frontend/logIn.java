@@ -23,6 +23,41 @@ import javafx.geometry.Insets;
 import javafx.stage.Stage;
 
 public class logIn extends Application {
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Cody, Make sure that when you create gui objects, you create them as their own class.
+	 * for reference, look at how I di my createUser class. you should make a class called LoginPane that
+	 * extends BoarderPane (or whatever layout you want to use.) then have methods that set attributes and style
+	 * for each element that you will add to it's children. for instance, in createUser, I have a firstName
+	 * field. so I also have a method that sets the attributes for that field. I then make a constructor
+	 * for the class and call that method. the start method and main are called in main.App. This class should
+	 * extend BoarderPane, not Application. You will then set the scene that is in main.App to contain
+	 * an instance of this pane.
+	 * 
+	 * Other than that, This looks good.
+	 * - Ian
+	 * 
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override // Override the start method in the Application class
 	public void start(Stage primaryStage) {
 		/*
