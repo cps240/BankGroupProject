@@ -2,16 +2,25 @@ package frontend;
 
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.ObservableValueBase;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 /**
  * All of our gui stuff should be added to this. This will be the main background for the gui.
@@ -81,6 +90,15 @@ public class BasePane extends BorderPane {
 		
 		this.addAccountButtonContainer.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
 		this.addAccountButtonContainer.setOpacity(0.5);
+		this.addAccountLabel.setOnMouseEntered(e -> {
+				// TODO Auto-generated method stub
+				addAccountButtonContainer.setOpacity(1);
+				addAccountButtonContainer.setCursor(Cursor.HAND);
+		});
+		this.addAccountLabel.setOnMouseExited(e -> {
+				// TODO Auto-generated method stub
+				addAccountButtonContainer.setOpacity(0.5);
+		});
 	}
 	
 	public void setDepositButtonAttributes() {
@@ -91,6 +109,15 @@ public class BasePane extends BorderPane {
 		
 		this.depositButtonContainer.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
 		this.depositButtonContainer.setOpacity(0.5);
+		this.depositLabel.setOnMouseEntered(e -> {
+				// TODO Auto-generated method stub
+				depositButtonContainer.setOpacity(1);
+				depositButtonContainer.setCursor(Cursor.HAND);
+		});
+		this.depositLabel.setOnMouseExited(e -> {
+				// TODO Auto-generated method stub
+				depositButtonContainer.setOpacity(0.5);
+		});
 	}
 	
 	public void setWithdrawalButtonAttributes() {
@@ -101,6 +128,15 @@ public class BasePane extends BorderPane {
 		
 		this.withdrawalButtonContainer.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
 		this.withdrawalButtonContainer.setOpacity(0.5);
+		this.withdrawalLabel.setOnMouseEntered(e -> {
+				// TODO Auto-generated method stub
+				withdrawalButtonContainer.setOpacity(1);
+				withdrawalButtonContainer.setCursor(Cursor.HAND);
+		});
+		this.withdrawalLabel.setOnMouseExited(e -> {
+				// TODO Auto-generated method stub
+				withdrawalButtonContainer.setOpacity(0.5);
+		});
 	}
 	
 	public void setTransferButtonAttributes() {
@@ -111,6 +147,15 @@ public class BasePane extends BorderPane {
 		
 		this.transferButtonContainer.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
 		this.transferButtonContainer.setOpacity(0.5);
+		this.transferLabel.setOnMouseEntered(e -> {
+				// TODO Auto-generated method stub
+				transferButtonContainer.setOpacity(1);
+				transferButtonContainer.setCursor(Cursor.HAND);
+		});
+		this.transferLabel.setOnMouseExited(e -> {
+				// TODO Auto-generated method stub
+				transferButtonContainer.setOpacity(0.5);
+		});
 	}
 	
 	public void setHomeButtonAttributes() {
@@ -121,6 +166,15 @@ public class BasePane extends BorderPane {
 		
 		this.homeButtonContainer.setBackground(new Background(new BackgroundFill(Color.AZURE, null, null)));
 		this.homeButtonContainer.setOpacity(0.5);
+		this.homeButtonContainer.setOnMouseEntered(e -> {
+				// TODO Auto-generated method stub
+				homeButtonContainer.setOpacity(1);
+				homeButtonContainer.setCursor(Cursor.HAND);
+		});
+		this.homeButtonContainer.setOnMouseExited(e -> {
+				// TODO Auto-generated method stub
+				homeButtonContainer.setOpacity(0.5);
+		});
 	}
 		
 	public BasePane() {

@@ -2,6 +2,7 @@ package frontend;
 
 import java.io.IOException;
 
+import backend.Settings;
 import backend.auth.Authentication;
 import backend.auth.errors.UserAlreadyStoredException;
 import backend.auth.errors.UserNotFoundException;
@@ -18,6 +19,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 public class CreateUserForm extends GridPane {
@@ -37,9 +41,18 @@ public class CreateUserForm extends GridPane {
 	public TextField usernameField = new TextField();
 	
 	public PasswordField passwordField = new PasswordField();
+	public PasswordField passwordConfirmField = new PasswordField();
 
 	public AnchorPane submitContainer = new AnchorPane(); //contains the submit button.
 	public Button submitButton = new Button("Submit");
+	
+	public Label title = new Label("Register");
+	
+	public void setTitleAttributes() {
+		this.title.setFont(new Font("Tahoma", 28));
+		this.setMargin(this.title, new Insets(0, 0, -15, 120));
+		this.title.setTextFill(Color.CADETBLUE);
+	}
 	
 	public void setWarningAttributes() {
 		this.warningContainer.getChildren().add(this.warning);
@@ -72,10 +85,74 @@ public class CreateUserForm extends GridPane {
 	
 	public void setUsernameAttributes() {
 		this.usernameField.setPromptText("Username");
+		
+		this.usernameField.setOnKeyReleased(e -> {
+			//check to see if the username is valid
+			if (!this.usernameIsValid(this.usernameField.getText())) {
+				this.warning.setText("Username contains invalid characters.");
+				this.warningContainer.setVisible(true);
+			} else if (!this.usernameExists(this.usernameField.getText())) {
+				this.warning.setText("A user with this info already exists.");
+				this.warningContainer.setVisible(true);
+			} else {
+				this.warningContainer.setVisible(false);
+			}
+		});
+	}
+	
+	public boolean usernameExists(String username) {
+		if (Authentication.userExists(username)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public boolean usernameIsValid(String username) {
+		for (Character c : username.toCharArray()) {
+			if (Character.isAlphabetic(c)) {
+				continue;
+			} else if (Character.isDigit(c)) {
+				continue;
+			} else if (c == '_' || c == '-' || c == '!' || c == '#' || c == '$' || c == '&') {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		//if loop finishes, then all characters pass so password is ok.
+		return true;
 	}
 	
 	public void setPasswordAttributes() {
 		this.passwordField.setPromptText("Password");
+		this.passwordConfirmField.setPromptText("Confirm Password");
+		
+		this.passwordField.setOnKeyReleased(e -> {
+			//check to see if the password is valid
+			if (!this.passwordIsValid(this.passwordField.getText())) {
+				this.warning.setText("Password contains invalid characters.");
+				this.warningContainer.setVisible(true);
+			} else {
+				this.warningContainer.setVisible(false);
+			}
+		});
+	}
+	
+	public boolean passwordIsValid(String password) {
+		for (Character c : password.toCharArray()) {
+			if (Character.isAlphabetic(c)) {
+				continue;
+			} else if (Character.isDigit(c)) {
+				continue;
+			} else if (c == '_' || c == '-' || c == '!' || c == '#' || c == '$' || c == '&') {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		//if loop finishes, then all characters pass so password is ok.
+		return true;
 	}
 	
 	public void setSubmitAttributes() {
@@ -92,16 +169,38 @@ public class CreateUserForm extends GridPane {
 		public void handle(ActionEvent event) {
 			String username = usernameField.getText();
 			String password = passwordField.getText();
+			String passwordConfirm = passwordConfirmField.getText();
 			String firstName = firstNameField.getText();
 			String lastName = lastNameField.getText();
 			String gender = (String) genderField.getValue();
 			String phoneNumber = phoneField.getText();
 			
-			if (this.isValid(username, password, firstName, lastName, gender, phoneNumber)) {
+			if (this.isValid(username, password, passwordConfirm, firstName, lastName, gender, phoneNumber)) {
 				try {
-					Authentication.addUser(username, password, firstName, lastName, gender, phoneNumber);
-					this.clearForm();
-					this.alertSaved(firstName + " " + lastName);
+					boolean valid = true;
+					if (!password.equals(passwordConfirm)) {
+						valid = false;
+						passwordField.setStyle("-fx-text-box-border: red;");
+						warning.setText("Both password fields must match.");
+						warningContainer.setVisible(true);
+					}
+					if (!passwordIsValid(password)) {
+						valid = false;
+						passwordField.setStyle("-fx-text-box-border: red;");
+						warning.setText("Password cotains invalid characters.");
+						warningContainer.setVisible(true);
+					}
+					if (!usernameIsValid(username)) {
+						valid = false;
+						usernameField.setStyle("-fx-text-box-border: red;");
+						warning.setText("Username contains invalid characters.");
+						warningContainer.setVisible(true);
+					}
+					if (valid) {
+						Authentication.addUser(username, password, firstName, lastName, gender, phoneNumber);
+						this.clearForm();
+						this.alertSaved(firstName + " " + lastName);
+					}
 				} catch (UserAlreadyStoredException e) {
 					warning.setText("A user with this info already exists.");
 					warningContainer.setVisible(true);
@@ -136,6 +235,7 @@ public class CreateUserForm extends GridPane {
 		public void clearForm() {
 			usernameField.setText("");
 			passwordField.setText("");
+			passwordConfirmField.setText("");
 			firstNameField.setText("");
 			lastNameField.setText("");
 			genderField.setValue(null);
@@ -149,10 +249,11 @@ public class CreateUserForm extends GridPane {
 			firstNameField.setStyle("-fx-text-box-border: LightGray;");
 			usernameField.setStyle("-fx-text-box-border: LightGray;");
 			passwordField.setStyle("-fx-text-box-border: LightGray;");
+			passwordConfirmField.setStyle("-fx-text-box-border: LightGray;");
 		}
 		
-		public boolean isValid(String username, String password, String firstName,
-								String lastName, String gender, String phoneNumber) {
+		public boolean isValid(String username, String password, String passwordConfirm,
+				String firstName, String lastName, String gender, String phoneNumber) {
 			boolean valid = true;
 			this.clearBorders();
 			if (username.isEmpty()) {
@@ -161,6 +262,10 @@ public class CreateUserForm extends GridPane {
 			}
 			if (password.isEmpty()) {
 				passwordField.setStyle("-fx-text-box-border: red;");
+				valid = false;
+			}
+			if (passwordConfirm.isEmpty()) {
+				passwordConfirmField.setStyle("-fx-text-box-border: red;");
 				valid = false;
 			}
 			if (firstName.isEmpty()) {
@@ -186,19 +291,22 @@ public class CreateUserForm extends GridPane {
 	}
 	
 	public CreateUserForm() {
-		this.add(this.warningContainer, 0, 0, 2, 1);
+		this.add(this.title, 0, 0, 2, 1);
+		this.add(this.warningContainer, 0, 1, 2, 1);
 		
-		this.add(this.firstNameField, 0, 1);
-		this.add(this.lastNameField, 1, 1);
+		this.add(this.firstNameField, 0, 2);
+		this.add(this.lastNameField, 1, 2);
 		
-		this.add(this.phoneField, 0, 2);
-		this.add(this.genderContainer, 0, 3); //this will contain the gender box.
+		this.add(this.phoneField, 0, 3);
+		this.add(this.genderContainer, 1, 4); //this will contain the gender box.
 		
-		this.add(this.usernameField, 1, 2);
-		this.add(this.passwordField, 1, 3);
+		this.add(this.usernameField, 1, 3);
+		this.add(this.passwordField, 0, 4);
+		this.add(this.passwordConfirmField, 0, 5);
 
-		this.add(this.submitContainer, 1, 4); //this will contain the submit button.
+		this.add(this.submitContainer, 1, 5); //this will contain the submit button.
 		
+		this.setTitleAttributes();
 		this.setBaseAttributes();
 		this.setWarningAttributes();
 		this.setLastNameAttributes();
@@ -211,8 +319,8 @@ public class CreateUserForm extends GridPane {
 	}
 	
 	public void setBaseAttributes() {
-		this.setPadding(new Insets(15));
-		this.setHgap(10);
-		this.setVgap(10);
+		this.setPadding(new Insets(25,120,50,120));
+		this.setHgap(20);
+		this.setVgap(20);
 	}
 }
