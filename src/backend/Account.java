@@ -153,7 +153,11 @@ public abstract class Account {
 		}
 	}
 	
+	public String listAccounts() {
+		return this.getClass().getSimpleName().split("Account")[0] + " Account with balance: $" + this.balance;
+	}
+
 	public String toString() {
-		return this.getOwner().fullName() + "'s " + this.getClass().getSimpleName().split("Account")[0] + " Account with balance: $" + this.balance;
+		return this.getClass().getSimpleName().split("Account")[0] + " Account balance: $" + this.balance;
 	}
 }

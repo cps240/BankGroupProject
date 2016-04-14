@@ -1,6 +1,8 @@
 package backend.auth;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -240,6 +242,28 @@ public class Customer implements JSONMappable{
 				"phoneNumber"
 		};
 	}
+	
+	/**
+	 * Checks to see if the customer has a SavingsAccount and/or CheckingAccount and adds to 
+	 * 	an ArrayList to be returned.
+	 * 
+	 * @author Mason Cross (cross1m)
+	 * 
+	 * @return userAccounts ArrayList containing the customer's accounts with balance
+	 */
+	public ArrayList getUserAccounts() {
+		ArrayList<Account>userAccounts = new ArrayList();
+		
+		if(this.getAccount(SavingsAccount.class)!=null) {
+			userAccounts.add(this.getAccount(SavingsAccount.class));
+		}
+		if(this.getAccount(CheckingAccount.class)!=null) {
+			userAccounts.add(this.getAccount(CheckingAccount.class));
+		}	
+		return userAccounts;
+	}
+	
+	
 	
 	public String toString() {
 		return "Customer: " + this.firstName + " " + this.lastName + " - " + this.gender;
