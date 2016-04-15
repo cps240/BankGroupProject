@@ -251,8 +251,8 @@ public class Customer implements JSONMappable{
 	 * 
 	 * @return userAccounts ArrayList containing the customer's accounts with balance
 	 */
-	public ArrayList getUserAccounts() {
-		ArrayList<Account>userAccounts = new ArrayList();
+	public ArrayList<Account> getUserAccounts() {
+		ArrayList<Account>userAccounts = new ArrayList<Account>();
 		
 		if(this.getAccount(SavingsAccount.class)!=null) {
 			userAccounts.add(this.getAccount(SavingsAccount.class));
