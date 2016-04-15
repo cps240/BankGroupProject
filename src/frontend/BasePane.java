@@ -45,7 +45,7 @@ public class BasePane extends BorderPane {
 			public Label transferLabel = new Label("Make Transfer");
 		public AnchorPane homeButtonContainer = new AnchorPane();
 			public Label homeLabel = new Label("My Accounts");
-			
+		
 	public void buildNavBar() {
 		this.navBar.getChildren().add(this.addAccountButtonContainer);
 		this.setAddAccountsButtonAttributes();
@@ -183,5 +183,10 @@ public class BasePane extends BorderPane {
 		
 		this.setTop(this.navBar);
 		this.buildNavBar();
+	}
+	
+	public void setPane(Pane newContent)
+	{
+		this.content = newContent;
 	}
 }

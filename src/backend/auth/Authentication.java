@@ -96,7 +96,7 @@ public abstract class Authentication {
 	 * @throws UserNotFoundException 
 	 * @throws PasswordMissmatchException 
 	 */
-	public boolean attemptLogin(String _username, String _password) throws UserNotFoundException, PasswordMissmatchException {
+	public static boolean attemptLogin(String _username, String _password) throws UserNotFoundException, PasswordMissmatchException {
 		Customer toLogin = getUser(_username);
 		
 		toLogin.login(_password);
