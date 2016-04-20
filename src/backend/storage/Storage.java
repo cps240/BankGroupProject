@@ -259,4 +259,8 @@ public abstract class Storage {
 			throw new JsonParseError(e.getMessage());
 		}
 	}
+
+	public static Account getAccountById(String accountId) {
+		return null;
+	}
 }
