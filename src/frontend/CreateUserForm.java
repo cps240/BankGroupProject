@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
+import main.App;
 
 public class CreateUserForm extends GridPane {
 	
@@ -47,6 +48,9 @@ public class CreateUserForm extends GridPane {
 	public Button submitButton = new Button("Submit");
 	
 	public Label title = new Label("Register");
+	
+	public AnchorPane loginContainer = new AnchorPane(); //contains the login button.
+	public Button loginButton = new Button("Login last created user");
 	
 	public void setTitleAttributes() {
 		this.title.setFont(new Font("Tahoma", 28));
@@ -200,6 +204,11 @@ public class CreateUserForm extends GridPane {
 						Authentication.addUser(username, password, firstName, lastName, gender, phoneNumber);
 						this.clearForm();
 						this.alertSaved(firstName + " " + lastName);
+						
+						/*
+						 * prompt user to login to the newly created user.
+						 */
+						promptUserLogin(username, passwordConfirm);
 					}
 				} catch (UserAlreadyStoredException e) {
 					warning.setText("A user with this info already exists.");
@@ -288,6 +297,29 @@ public class CreateUserForm extends GridPane {
 			return valid;
 		}
 		
+	}
+	
+	/**
+	 * This will add the login button to the createUserForm after
+	 * a user has been created. If pressed, it will login the last created user.
+	 * the button will only be displayed if a user has been created.
+	 */
+	public void promptUserLogin(String username, String password) {
+		this.loginButton.setOnAction(e -> {
+			try {
+				Authentication.attemptLogin(username, password);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				//should never happen cause the user was just created.
+				e1.printStackTrace();
+			}
+			App.mainScene.setRoot(new BasePane());
+			App.primaryStage.sizeToScene();
+		});
+		this.loginContainer.getChildren().add(this.loginButton);
+		AnchorPane.setRightAnchor(this.loginButton, 0.0);
+		AnchorPane.setLeftAnchor(this.loginButton, 0.0);
+		this.add(this.loginButton, 0, 6);
 	}
 	
 	public CreateUserForm() {

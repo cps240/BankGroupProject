@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.auth.Authentication;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.ObservableValueBase;
 import javafx.event.Event;
@@ -21,6 +22,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import main.App;
 
 /**
  * All of our gui stuff should be added to this. This will be the main background for the gui.
@@ -99,6 +101,9 @@ public class BasePane extends BorderPane {
 				// TODO Auto-generated method stub
 				addAccountButtonContainer.setOpacity(0.5);
 		});
+		this.addAccountLabel.setOnMouseClicked(e -> {
+			this.setContent(new CreateAccountForm());
+		});
 	}
 	
 	public void setDepositButtonAttributes() {
@@ -117,6 +122,9 @@ public class BasePane extends BorderPane {
 		this.depositLabel.setOnMouseExited(e -> {
 				// TODO Auto-generated method stub
 				depositButtonContainer.setOpacity(0.5);
+		});
+		this.depositLabel.setOnMouseClicked(e -> {
+			this.setContent(new DepositPane());
 		});
 	}
 	
@@ -156,6 +164,9 @@ public class BasePane extends BorderPane {
 				// TODO Auto-generated method stub
 				transferButtonContainer.setOpacity(0.5);
 		});
+		this.transferLabel.setOnMouseClicked(e -> {
+			this.setContent(new TransferPane());
+		});
 	}
 	
 	public void setHomeButtonAttributes() {
@@ -176,9 +187,14 @@ public class BasePane extends BorderPane {
 				homeButtonContainer.setOpacity(0.5);
 		});
 	}
+	
+	public void setContent(Pane pane) {
+		this.content = pane;
+		this.setCenter(this.content);
+	}
 		
 	public BasePane() {
-		this.content = new CreateUserForm();
+		this.content = new CreateAccountForm();
 		this.setCenter(this.content);
 		
 		this.setTop(this.navBar);

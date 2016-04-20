@@ -85,10 +85,9 @@ public class LogInPane extends GridPane {
 			if(!username.isEmpty() && !password.isEmpty())
 			{
 				try {
-					System.out.println(1);
 					Authentication.attemptLogin(username, password);
-					//add screen change here
-					
+					App.mainScene.setRoot(new BasePane());
+					App.primaryStage.sizeToScene();
 					
 				} catch (UserNotFoundException e) {
 					warning.setText("Could not find User");
@@ -113,7 +112,8 @@ public class LogInPane extends GridPane {
 		@Override
 		public void handle(ActionEvent event) {
 			//Add the file change here
-			System.out.println("btn good");
+			App.mainScene.setRoot(new CreateUserForm());
+			App.primaryStage.sizeToScene();
 		}
 
 	}
