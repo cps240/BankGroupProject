@@ -19,6 +19,7 @@ import backend.Settings;
 import backend.auth.Authentication;
 import backend.auth.Customer;
 import backend.auth.errors.UserNotFoundException;
+import backend.errors.AccountNotFoundException;
 import utils.jsonConversion.JSONClassMapping;
 import utils.jsonConversion.JSONFormat;
 import utils.jsonConversion.JsonParseError;
@@ -260,7 +261,23 @@ public abstract class Storage {
 		}
 	}
 
-	public static Account getAccountById(String accountId) {
+	public static Account getAccountById(String accountId) throws AccountNotFoundException {
+		try {
+			if (!accountRelationships.containsKey(accountId)) {
+				throw new AccountNotFoundException(accountId);
+			} else {
+				Customer owner = Authentication.getUser(accountRelationships.get(accountId));
+				for(Account acct: owner.getUserAccounts()) {
+					if (acct.accountNumber.equals(accountId)) {
+						return acct;
+					}
+				}
+			}
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 }
