@@ -187,6 +187,9 @@ public class BasePane extends BorderPane {
 				// TODO Auto-generated method stub
 				homeButtonContainer.setOpacity(0.5);
 		});
+		this.homeLabel.setOnMouseClicked(e -> {
+			this.setContent(new CustomerMainPage());
+		});
 	}
 	
 	public void setContent(Pane pane) {
