@@ -1,13 +1,14 @@
 package frontend;
 
-import main.App;
-import javafx.collections.FXCollections;
+import backend.Account;
+import backend.errors.AccountNotFoundException;
+import backend.errors.LowAccountBalanceException;
+import backend.storage.Storage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -24,6 +25,7 @@ public class TransferPane extends GridPane {
 	//-
 	public TextField toAccount = new TextField();
 	public TextField fromAccount = new TextField();
+	public TextField amount = new TextField();
 
 	public AnchorPane makeTransferContainer = new AnchorPane();
 
@@ -43,6 +45,10 @@ public class TransferPane extends GridPane {
 		this.warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
 		this.warningContainer.setVisible(false);
 		this.warning.setAlignment(Pos.CENTER);
+	}
+
+	public void setamountAttributes() {
+		this.amount.setPromptText("amount");
 	}
 	public void setFromAccountAttributes() {
 		this.fromAccount.setPromptText("From Account");
@@ -66,39 +72,37 @@ public class TransferPane extends GridPane {
 	protected class actionLogIn implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
-			
-			String account = toAccount.getText();
-			String amount = fromAccount.getText();
 
-			if(!amount.isEmpty() && !account.isEmpty())
+			String holdToAccount = toAccount.getText();
+			String holdfromAmount = fromAccount.getText();
+			String holdAmount = amount.getText();
+			double holdDoubleAmount;
+
+			try {
+				holdDoubleAmount = Double.parseDouble(holdAmount);
+			} finally {
+				warningContainer.setVisible(true);
+				warning.setText("Invalid amount");
+			}
+
+			if(!holdToAccount.isEmpty() && !holdfromAmount.isEmpty())
 			{
-				//need stuff here
+				try {
+					Account.doTransfer(Storage.getAccountById(holdToAccount), Storage.getAccountById(holdfromAmount),holdDoubleAmount);
+					warning.setVisible(false);
+				} catch (LowAccountBalanceException | AccountNotFoundException e) {
+					warningContainer.setVisible(true);
+					warning.setText("Not enough funds");
+				}
 			}
 			else{
 				warningContainer.setVisible(true);
 				warning.setText("One or both fields are empty");
 			}
+
 		}
-
-
-
 	}
 
-
-	protected class newUser implements EventHandler<ActionEvent> {
-		@Override
-		public void handle(ActionEvent event) {
-			//Add the file change here
-			System.out.println("btn good");
-		}
-
-	}
-
-
-
-
-
-	//-------
 	public TransferPane() {
 		this.setWarningAttributes();
 		this.setBaseAttributes();
@@ -106,11 +110,13 @@ public class TransferPane extends GridPane {
 		this.setToAccountAttributes();
 		this.setTransferBtn();
 		this.setHeaderAttributes();
+		this.setamountAttributes();
 
 		this.add(this.Header, 0, 0,2,1);
 		this.add(this.warningContainer, 0, 0, 2, 1);
 		this.add(this.toAccount, 1, 2);
 		this.add(this.fromAccount, 1, 3);
+		this.add(this.amount, 1, 4);
 		this.add(this.makeTransferContainer, 1, 6);		
 	}
 
