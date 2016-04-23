@@ -1,6 +1,15 @@
 package frontend;
 
 import main.App;
+
+import java.util.function.DoubleToLongFunction;
+
+import backend.Account;
+import backend.CheckingAccount;
+import backend.SavingsAccount;
+import backend.auth.Authentication;
+import backend.errors.AccountNotFoundException;
+import backend.storage.Storage;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,8 +30,8 @@ public class DepositPane extends GridPane {
 	public Label warning = new Label("this is junk ");
 
 	public Label Header = new Label("Deposit");
-//-
-	public ChoiceBox<String> toAccount = new ChoiceBox<String>(FXCollections.observableArrayList("Checking", "Savings"));
+
+	public ChoiceBox<Class> toAccount = new ChoiceBox<Class>(FXCollections.observableArrayList(CheckingAccount.class, SavingsAccount.class));
 
 	public TextField amountField = new TextField();
 
@@ -47,7 +56,8 @@ public class DepositPane extends GridPane {
 	}
 	public void setToAccountAttributes() {
 		this.toAccount.setValue(null);
-	}
+
+}
 
 	public void setAmountAttributes() {
 		this.amountField.setPromptText("Amount to Deposit");
@@ -67,13 +77,21 @@ public class DepositPane extends GridPane {
 	protected class actionLogIn implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
-			
-			String account = toAccount.getValue();
+
+			Class accountType = toAccount.getValue();
 			String amount = amountField.getText();
 
-			if(!amount.isEmpty() && account != null)
+			if(!amount.isEmpty() && accountType != null)
 			{
-				
+
+				try {
+					Account acct = Authentication.getLoggedInUser().getAccount(accountType);
+					acct.doDeposit(Double.parseDouble(amount));
+
+				} finally {
+					warningContainer.setVisible(true);
+					warning.setText("Amount is Invalid");
+				}
 			}
 			else{
 				warningContainer.setVisible(true);
