@@ -94,7 +94,6 @@ public class DepositPane extends GridPane {
 					warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
 					warningContainer.setVisible(true);
 					warning.setText("Amount Invalid");
-					System.out.println("rip");
 				}
 			}else{
 
