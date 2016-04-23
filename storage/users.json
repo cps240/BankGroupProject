@@ -1,155 +1,25 @@
 {
 	"Customers": [
 		{
-			"4#java.lang.String#_firstName": "Joe",
-			"6#java.lang.String#_gender": "M",
-			"2#java.lang.String#_username": "hahaha",
-			"5#java.lang.String#_lastName": "John",
-			"7#java.lang.String#_phoneNumber": "jdldffsd",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!46575!76286!71975!76572!16282!61978",
-			"1#java.lang.Integer#_userId": 7
-		},
-		{
 			"4#java.lang.String#_firstName": "Ian",
-			"6#java.lang.String#_gender": "M",
+			"6#java.lang.String#_gender": "Male",
 			"2#java.lang.String#_username": "ianmann56",
 			"5#java.lang.String#_lastName": "Kirkpatrick",
-			"7#java.lang.String#_phoneNumber": "jdldffsd",
+			"7#java.lang.String#_phoneNumber": "444",
 			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:*63149*90241!56571!19189!84875!15082!38273!34582",
-			"1#java.lang.Integer#_userId": 8
+			"3#java.lang.String#_password": "ENCRIPTED:*33144*30242!36574!79181!14875!75084!88274!54581",
+			"1#java.lang.Integer#_userId": 1
 		},
 		{
-			"4#java.lang.String#_firstName": "Ian",
+			"4#java.lang.String#_firstName": "Nick",
 			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "ianmann99",
-			"5#java.lang.String#_lastName": "Kirkpatrick",
-			"7#java.lang.String#_phoneNumber": "flsjflsa",
+			"2#java.lang.String#_username": "tingl1nj",
+			"5#java.lang.String#_lastName": "Tingley",
+			"7#java.lang.String#_phoneNumber": "555",
 			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:*13141*30249!86579!59184!14874!55082!28273!14581",
-			"1#java.lang.Integer#_userId": 9
-		},
-		{
-			"4#java.lang.String#_firstName": "Ian",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "ianmann88",
-			"5#java.lang.String#_lastName": "Kirkpatrick",
-			"7#java.lang.String#_phoneNumber": "jfsdlfjsdl",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:*13141*60241!26572!69182!84875!75081!18271!14589",
-			"1#java.lang.Integer#_userId": 10
-		},
-		{
-			"4#java.lang.String#_firstName": "Ian",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "ianmann11",
-			"5#java.lang.String#_lastName": "Kirkpatrick",
-			"7#java.lang.String#_phoneNumber": "453531",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:*53141*10249!56577!59185!74871!55088!88277!14588",
-			"1#java.lang.Integer#_userId": 11
-		},
-		{
-			"4#java.lang.String#_firstName": "Wynton",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "wyntonmann",
-			"5#java.lang.String#_lastName": "Kirkpatrick",
-			"7#java.lang.String#_phoneNumber": "453534",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:*53149*10243!66577!29189!44878!35081!68273!34587",
-			"1#java.lang.Integer#_userId": 12
-		},
-		{
-			"4#java.lang.String#_firstName": "Joe",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "hello",
-			"5#java.lang.String#_lastName": "John",
-			"7#java.lang.String#_phoneNumber": "45345",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!36285!95082!45081!76572!87773",
-			"1#java.lang.Integer#_userId": 13
-		},
-		{
-			"4#java.lang.String#_firstName": "Jack",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "yoyo",
-			"5#java.lang.String#_lastName": "Josh",
-			"7#java.lang.String#_phoneNumber": "flkjalk",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!64589!44589!98277!83383",
-			"1#java.lang.Integer#_userId": 14
-		},
-		{
-			"4#java.lang.String#_firstName": "dfaf",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "fsdaf",
-			"5#java.lang.String#_lastName": "sdfsdaf",
-			"7#java.lang.String#_phoneNumber": "fassd",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!94582!53676!89475!98272!84588!93673",
-			"1#java.lang.Integer#_userId": 15
-		},
-		{
-			"4#java.lang.String#_firstName": "lfjs",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "jgdslk;j",
-			"5#java.lang.String#_lastName": "dasfsa",
-			"7#java.lang.String#_phoneNumber": "ds;klj",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!19471!85081!84581!69477!51977!20777!78979!95087",
-			"1#java.lang.Integer#_userId": 16
-		},
-		{
-			"4#java.lang.String#_firstName": "lk;djsflaks",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "fjdsl;fjdsafl",
-			"5#java.lang.String#_lastName": "fajsl",
-			"7#java.lang.String#_phoneNumber": "fksd",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!48274!74581!23674!21979!99473!28273!14588!25085!13671",
-			"1#java.lang.Integer#_userId": 17
-		},
-		{
-			"4#java.lang.String#_firstName": "sdlkfajsl",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "lahgdfhgjl",
-			"5#java.lang.String#_lastName": "faldkj",
-			"7#java.lang.String#_phoneNumber": "flajfl",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!61977!29471!44581!83671^62647!25088!61977!18276",
-			"1#java.lang.Integer#_userId": 18
-		},
-		{
-			"4#java.lang.String#_firstName": "jlfksadjfs",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "dsfgsgfdgdfgdsg",
-			"5#java.lang.String#_lastName": "dfgdfs",
-			"7#java.lang.String#_phoneNumber": "dgdfg",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!49471!70772!24585!53673!49471",
-			"1#java.lang.Integer#_userId": 19
-		},
-		{
-			"4#java.lang.String#_firstName": "Dreyton",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "dreymann",
-			"5#java.lang.String#_lastName": "Scott",
-			"7#java.lang.String#_phoneNumber": "f;lkasjf",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:!46571!47481!29472",
-			"1#java.lang.Integer#_userId": 20
-		},
-		{
-			"4#java.lang.String#_firstName": "fjadkslfj",
-			"6#java.lang.String#_gender": "Male",
-			"2#java.lang.String#_username": "ianmann57",
-			"5#java.lang.String#_lastName": "lgjsl",
-			"7#java.lang.String#_phoneNumber": "fdsafsda",
-			"type": "backend.auth.Customer",
-			"3#java.lang.String#_password": "ENCRIPTED:^27074*33146*10244!46571!49183!54876!95086!98278!34583",
-			"1#java.lang.Integer#_userId": 21
+			"3#java.lang.String#_password": "ENCRIPTED:!18271",
+			"1#java.lang.Integer#_userId": 2
 		}
 	],
-	"nextUserId": "22"
+	"nextUserId": "3"
 }
