@@ -2,6 +2,7 @@ package frontend;
 
 import main.App;
 
+import java.text.ParseException;
 import java.util.function.DoubleToLongFunction;
 
 import backend.Account;
@@ -56,8 +57,7 @@ public class DepositPane extends GridPane {
 	}
 	public void setToAccountAttributes() {
 		this.toAccount.setValue(null);
-
-}
+	}
 
 	public void setAmountAttributes() {
 		this.amountField.setPromptText("Amount to Deposit");
@@ -80,28 +80,31 @@ public class DepositPane extends GridPane {
 
 			Class accountType = toAccount.getValue();
 			String amount = amountField.getText();
-
+			double amountToAdd;
 			if(!amount.isEmpty() && accountType != null)
 			{
-
 				try {
 					Account acct = Authentication.getLoggedInUser().getAccount(accountType);
 					acct.doDeposit(Double.parseDouble(amount));
 
-				} finally {
+					warning.setText("Transaction complete");
+					warningContainer.setStyle("-fx-background-color: rgba(0, 255, 0, 0.35); -fx-background-radius: 2;");
+
+				} catch (NumberFormatException e) {
+					warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
 					warningContainer.setVisible(true);
-					warning.setText("Amount is Invalid");
+					warning.setText("Amount Invalid");
+					System.out.println("rip");
 				}
-			}
-			else{
+			}else{
+
+				warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
 				warningContainer.setVisible(true);
 				warning.setText("One or both fields are empty");
 			}
 		}
-
-
-
 	}
+
 
 
 	//-------
