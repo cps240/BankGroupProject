@@ -78,21 +78,30 @@ public class TransferPane extends GridPane {
 			String holdAmount = amount.getText();
 			double holdDoubleAmount;
 
-			try {
-				holdDoubleAmount = Double.parseDouble(holdAmount);
-			} finally {
-				warningContainer.setVisible(true);
-				warning.setText("Invalid amount");
-			}
+			
+		
 
 			if(!holdToAccount.isEmpty() && !holdfromAmount.isEmpty())
 			{
 				try {
+					holdDoubleAmount = Double.parseDouble(holdAmount);
 					Account.doTransfer(Storage.getAccountById(holdToAccount), Storage.getAccountById(holdfromAmount),holdDoubleAmount);
-					warning.setVisible(false);
-				} catch (LowAccountBalanceException | AccountNotFoundException e) {
+					
 					warningContainer.setVisible(true);
-					warning.setText("Not enough funds");
+					warning.setText("Transaction complete");
+					warningContainer.setStyle("-fx-background-color: rgba(0, 255, 0, 0.35); -fx-background-radius: 2;");
+
+				} catch (LowAccountBalanceException e) {
+					warningContainer.setVisible(true);
+					warning.setText("Not Enough Funds");
+				}catch ( AccountNotFoundException e){
+					warningContainer.setVisible(true);
+					warning.setText("Account not Found");
+				}catch (NumberFormatException e) {
+					warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
+					warningContainer.setVisible(true);
+					warning.setText("Amount Invalid");
+					
 				}
 			}
 			else{
