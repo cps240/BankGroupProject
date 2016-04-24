@@ -81,12 +81,12 @@ public class WithdrawPane  extends GridPane {
 
 			Class accountType = fromAccount.getValue();
 			String amount = amountField.getText();
-			double amountToAdd;
+			double withdrawAmount = Double.parseDouble(amount);
 			if(!amount.isEmpty() && accountType != null)
 			{
 				try {
 					Account acct = Authentication.getLoggedInUser().getAccount(accountType);
-					acct.doWithdrawal(Double.parseDouble(amount));
+					acct.doWithdrawal(withdrawAmount);
 
 					warning.setText("Transaction complete");
 					warningContainer.setStyle("-fx-background-color: rgba(0, 255, 0, 0.35); -fx-background-radius: 2;");
