@@ -1,0 +1,12 @@
+Sun Apr 24 16:32:39 EDT 2016		000000000000001		Withdrawal		6.0		120.0
+
+Sun Apr 24 16:32:47 EDT 2016		000000000000001		Deposit		2.0		122.0
+
+ Date 		 Account 		 Action 		 Amount 		 Final Balance
+------		---------		--------		--------		--------------
+Sun Apr 24 16:59:09 EDT 2016		000000000000001		Deposit		70.0		70.0
+
+Sun Apr 24 16:59:20 EDT 2016		000000000000001		Withdrawal		3.0		67.0
+
+Sun Apr 24 16:59:26 EDT 2016		000000000000001		Deposit		4.0		71.0
+

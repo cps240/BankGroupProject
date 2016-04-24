@@ -41,7 +41,7 @@ public class CustomerMainPage extends GridPane {
 			AnchorPane.setLeftAnchor(this.translog, 0.0);
 			
 			this.translog.setOnAction(e -> {
-//				((BasePane) this.getParent()).setContent(new TransactionLog());
+				((BasePane) this.getParent()).setContent(new TransactionListPane());
 			});
 		
 		

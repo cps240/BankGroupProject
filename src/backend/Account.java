@@ -1,5 +1,10 @@
 package backend;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -69,12 +74,14 @@ public abstract class Account {
 			this.accountNumber = Storage.nextAccountId;
 			Storage.nextAccountId = Storage.incrementAccountId();
 			Storage.accountRelationships.put(this.accountNumber, this.getOwner().userId);
+			Settings.storage.folder.initializeAccountFile(this);
 		} else {
 			throw new AccountAlreadyStoredException(this);
 		}
 		if (this.balance == null) {
 			this.balance = 0.0;
 		}
+		this.initFile();
 	}
 	
 	public String getAccountNumber() {
@@ -101,6 +108,7 @@ public abstract class Account {
 	public void doWithdrawal(double _amount) throws LowAccountBalanceException {
 		double newBal = this.getBalance() - _amount;
 		this.setBalance(newBal);
+		new transaction(new Date(), this.accountNumber, "Withdrawal", _amount, this.balance);
 	}
 	
 	/**
@@ -110,6 +118,7 @@ public abstract class Account {
 	public void doDeposit(double _amount) {
 		double newBal = this.getBalance() + _amount;
 		this.setBalance(newBal);
+		new transaction(new Date(), this.accountNumber, "Deposit", _amount, this.balance);
 	}
 	
 	/**
@@ -159,5 +168,16 @@ public abstract class Account {
 
 	public String toString() {
 		return this.getClass().getSimpleName().split("Account")[0] + " Account balance: $" + this.balance;
+	}
+	
+	public void initFile() {
+		String fileName = this.accountNumber + ".txt";
+		try (PrintWriter pw = new PrintWriter(new FileWriter(fileName, true))) {
+			pw.println(" Date \t\t Account \t\t Action \t\t Amount \t\t Final Balance");
+			pw.println("------\t\t---------\t\t--------\t\t--------\t\t--------------");
+		} catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 }
