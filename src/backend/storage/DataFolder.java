@@ -106,6 +106,7 @@ public class DataFolder {
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println(_account.pathToAccountFile());
 			e.printStackTrace();
 		} catch (AccountNotFoundException e) {
 			// TODO Auto-generated catch block

@@ -146,6 +146,9 @@ public class BasePane extends BorderPane {
 				// TODO Auto-generated method stub
 				withdrawalButtonContainer.setOpacity(0.5);
 		});
+		this.withdrawalLabel.setOnMouseClicked(e -> {
+			this.setContent(new WithdrawalPane());
+		});
 	}
 	
 	public void setTransferButtonAttributes() {
