@@ -34,7 +34,7 @@ public class WithdrawalPane  extends GridPane {
 
 	public Label Header = new Label("Withdraw");
 
-	public ChoiceBox<Class> fromAccount = null;
+	public ChoiceBox<Account> fromAccount = null;
 
 	public TextField amountField = new TextField();
 
@@ -58,11 +58,7 @@ public class WithdrawalPane  extends GridPane {
 		this.warning.setAlignment(Pos.CENTER);
 	}
 	public void setToAccountAttributes() {
-		ArrayList<Class<Account>> accts = new ArrayList<Class<Account>>();
-		for (Account account : Authentication.getLoggedInUser().getUserAccounts()) {
-			accts.add((Class<Account>) account.getClass());
-		}
-		this.fromAccount = new ChoiceBox<>(FXCollections.observableArrayList(accts));
+		this.fromAccount = new ChoiceBox<>(FXCollections.observableArrayList(Authentication.getLoggedInUser().getUserAccounts()));
 		this.fromAccount.setValue(null);
 	}
 
@@ -85,14 +81,15 @@ public class WithdrawalPane  extends GridPane {
 		@Override
 		public void handle(ActionEvent event) {
 
-			Class accountType = fromAccount.getValue();
+			Account acct = fromAccount.getValue();
 			String amount = amountField.getText();
 			double amountToAdd;
-			if(!amount.isEmpty() && accountType != null)
+			if(!amount.isEmpty() && acct != null)
 			{
 				try {
-					Account acct = Authentication.getLoggedInUser().getAccount(accountType);
 					acct.doWithdrawal(Double.parseDouble(amount));
+					fromAccount.setValue(null);
+					amountField.clear();
 
 					warning.setText("Transaction complete");
 					warningContainer.setStyle("-fx-background-color: rgba(0, 255, 0, 0.35); -fx-background-radius: 2;");

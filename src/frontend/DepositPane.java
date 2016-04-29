@@ -33,7 +33,7 @@ public class DepositPane extends GridPane {
 
 	public Label Header = new Label("Deposit");
 
-	public ChoiceBox<Class> toAccount = null;
+	public ChoiceBox<Account> toAccount = null;
 
 	public TextField amountField = new TextField();
 
@@ -57,11 +57,7 @@ public class DepositPane extends GridPane {
 		this.warning.setAlignment(Pos.CENTER);
 	}
 	public void setToAccountAttributes() {
-		ArrayList<Class<Account>> accts = new ArrayList<Class<Account>>();
-		for (Account account : Authentication.getLoggedInUser().getUserAccounts()) {
-			accts.add((Class<Account>) account.getClass());
-		}
-		this.toAccount = new ChoiceBox<>(FXCollections.observableArrayList(accts));
+		this.toAccount = new ChoiceBox<>(FXCollections.observableArrayList(Authentication.getLoggedInUser().getUserAccounts()));
 		this.toAccount.setValue(null);
 	}
 
@@ -84,14 +80,15 @@ public class DepositPane extends GridPane {
 		@Override
 		public void handle(ActionEvent event) {
 
-			Class accountType = toAccount.getValue();
+			Account acct = toAccount.getValue();
 			String amount = amountField.getText();
 			double amountToAdd;
-			if(!amount.isEmpty() && accountType != null)
+			if(!amount.isEmpty() && acct != null)
 			{
 				try {
-					Account acct = Authentication.getLoggedInUser().getAccount(accountType);
 					acct.doDeposit(Double.parseDouble(amount));
+					toAccount.setValue(null);
+					amountField.clear();
 
 					warning.setText("Transaction complete");
 					warningContainer.setStyle("-fx-background-color: rgba(0, 255, 0, 0.35); -fx-background-radius: 2;");

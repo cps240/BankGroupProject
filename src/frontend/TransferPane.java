@@ -3,10 +3,14 @@ package frontend;
 import java.util.ArrayList;
 
 import backend.Account;
+import backend.CheckingAccount;
+import backend.SavingsAccount;
 import backend.auth.Authentication;
 import backend.errors.AccountNotFoundException;
 import backend.errors.LowAccountBalanceException;
 import backend.storage.Storage;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +18,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -27,9 +32,10 @@ public class TransferPane extends GridPane {
 	public Label warning = new Label("this is junk ");
 
 	public Label Header = new Label("Transfer");
-	//-
-	public TextField toAccount = new TextField();
-	public ChoiceBox<Class<Account>> fromAccount = null;
+
+	public ChoiceBox<String> toAccountType = new ChoiceBox<String>(FXCollections.observableArrayList("External", "Internal"));
+	public Control toAccount;
+	public ChoiceBox<Account> fromAccount = null;
 	public TextField amount = new TextField();
 
 	public AnchorPane makeTransferContainer = new AnchorPane();
@@ -56,16 +62,21 @@ public class TransferPane extends GridPane {
 		this.amount.setPromptText("amount");
 	}
 	public void setFromAccountAttributes() {
-		ArrayList<Class<Account>> accts = new ArrayList<Class<Account>>();
-		for (Account account : Authentication.getLoggedInUser().getUserAccounts()) {
-			accts.add((Class<Account>) account.getClass());
-		}
-		this.fromAccount = new ChoiceBox<>(FXCollections.observableArrayList(accts));
+		this.fromAccount = new ChoiceBox<Account>(FXCollections.observableArrayList(Authentication.getLoggedInUser().getUserAccounts()));
 		this.fromAccount.setValue(null);
 	}
-
-	public void setToAccountAttributes() {
-		this.toAccount.setPromptText("To Account");
+	
+	public void setToAccountTypeProperties() {
+		this.toAccountType.setOnAction(e -> {
+			String accountType = this.toAccountType.getValue();
+			if (accountType.equals("External")) {
+				this.toAccount = new TextField();
+				((TextField) this.toAccount).setPromptText("To Account");
+			} else {
+				this.toAccount = new ChoiceBox<Account>(FXCollections.observableArrayList(Authentication.getLoggedInUser().getUserAccounts()));
+			}
+			this.add(this.toAccount, 1, 2);
+		});
 	}
 
 	public void setTransferBtn() {
@@ -83,19 +94,40 @@ public class TransferPane extends GridPane {
 		@Override
 		public void handle(ActionEvent event) {
 
-			String holdToAccount = toAccount.getText();
-			Account holdfromAmount = Authentication.getLoggedInUser().getAccount(fromAccount.getValue());
+			Account holdToAccount = null;
+			if (toAccount instanceof ChoiceBox) {
+				holdToAccount = ((ChoiceBox<Account>) toAccount).getValue();
+			} else {
+				try {
+					if (!((TextField) toAccount).getText().isEmpty()) {
+						holdToAccount = Storage.getAccountById(((TextField) toAccount).getText());
+					}
+				} catch ( AccountNotFoundException e){
+					warningContainer.setVisible(true);
+					warning.setText("Account not Found");
+					return;
+				}
+			}
+			Account holdfromAmount = fromAccount.getValue();
 			String holdAmount = amount.getText();
 			double holdDoubleAmount;
 
 			
 		
 
-			if(!holdToAccount.isEmpty() && holdfromAmount != null)
+			if(holdToAccount != null && holdfromAmount != null)
 			{
 				try {
 					holdDoubleAmount = Double.parseDouble(holdAmount);
-					Account.doTransfer(holdfromAmount, Storage.getAccountById(holdToAccount), holdDoubleAmount);
+					Account.doTransfer(holdfromAmount, holdToAccount, holdDoubleAmount);
+					
+					if (toAccount instanceof TextField) {
+						((TextField) toAccount).clear();
+					} else {
+						((ChoiceBox) toAccount).setValue(null);
+					}
+					fromAccount.setValue(null);
+					amount.clear();
 					
 					warningContainer.setVisible(true);
 					warning.setText("Transaction complete");
@@ -104,9 +136,6 @@ public class TransferPane extends GridPane {
 				} catch (LowAccountBalanceException e) {
 					warningContainer.setVisible(true);
 					warning.setText("Not Enough Funds");
-				}catch ( AccountNotFoundException e){
-					warningContainer.setVisible(true);
-					warning.setText("Account not Found");
 				}catch (NumberFormatException e) {
 					warningContainer.setStyle("-fx-background-color: rgba(255, 0, 0, 0.35); -fx-background-radius: 2;");
 					warningContainer.setVisible(true);
@@ -126,14 +155,14 @@ public class TransferPane extends GridPane {
 		this.setWarningAttributes();
 		this.setBaseAttributes();
 		this.setFromAccountAttributes();
-		this.setToAccountAttributes();
+		this.setToAccountTypeProperties();
 		this.setTransferBtn();
 		this.setHeaderAttributes();
 		this.setamountAttributes();
 
 		this.add(this.Header, 0, 0,2,1);
 		this.add(this.warningContainer, 0, 0, 2, 1);
-		this.add(this.toAccount, 1, 2);
+		this.add(this.toAccountType, 2, 2);
 		this.add(this.fromAccount, 1, 3);
 		this.add(this.amount, 1, 4);
 		this.add(this.makeTransferContainer, 1, 6);		

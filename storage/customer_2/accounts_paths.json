@@ -1,10 +1,10 @@
 {
 	"Savings": [
-		"000000000000002",
-		"storage/customer_2/savingsaccounts/acct_000000000000002.json"
+		"000000000000004",
+		"storage/customer_2/savingsaccounts/acct_000000000000004.json"
 	],
 	"Checking": [
-		"000000000000001",
-		"storage/customer_2/checkingaccounts/acct_000000000000001.json"
+		"000000000000003",
+		"storage/customer_2/checkingaccounts/acct_000000000000003.json"
 	]
 }
